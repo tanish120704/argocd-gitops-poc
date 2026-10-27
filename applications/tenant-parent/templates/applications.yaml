@@ -12,7 +12,7 @@ metadata:
     platform.example.com/tenant: {{ $tenant | quote }}
     platform.example.com/group: {{ .name | quote }}
 spec:
-  project: tenants
+  project: tenant-groups
   sources:
     - repoURL: {{ $.Values.chartsRepository | quote }}
       targetRevision: {{ $.Values.revision | quote }}
