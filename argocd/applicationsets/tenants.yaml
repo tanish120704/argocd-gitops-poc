@@ -18,25 +18,20 @@ spec:
     metadata:
       name: 'tenant-{{ .path.basename }}'
     spec:
-      project: tenants
-      sources:
-        - repoURL: git@github.com:tanish120704/helm-values-poc.git
-          targetRevision: main
-          path: .
-          helm:
-            releaseName: '{{ .path.basename }}'
-            valueFiles:
-              - '$values/{{ .path.path }}/values.yaml'
-        - repoURL: git@github.com:tanish120704/argocd-gitops-poc.git
-          targetRevision: main
-          ref: values
+      project: tenant-parents
+      source:
+        repoURL: git@github.com:tanish120704/argocd-gitops-poc.git
+        targetRevision: refs/heads/main
+        path: 'generated/tenants/{{ .path.basename }}/parent'
+        directory:
+          recurse: false
       destination:
         server: https://kubernetes.default.svc
-        namespace: 'tenant-{{ .path.basename }}'
+        namespace: argocd
       syncPolicy:
         automated:
-          prune: true
+          # Preserve old ConfigMaps until the generated children adopt them.
+          # Offboarding is a deliberate operation in this POC.
+          prune: false
           selfHeal: true
           allowEmpty: false
-        syncOptions:
-          - CreateNamespace=true

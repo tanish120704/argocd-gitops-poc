@@ -13,10 +13,11 @@ with tempfile.TemporaryDirectory() as temp:
  module.ROOT=root
  def state(tenant): return json.loads((root/f'generated/state/{tenant}.json').read_text())
  one_before=state('tenant-one'); b_before=state('tenant-b')
- values=root/'tenants/tenant-b/values.yaml'; data=yaml.safe_load(values.read_text()); data['service-a']['settings']['logLevel']='error'; values.write_text(yaml.safe_dump(data,sort_keys=False))
+ values=root/'tenants/tenant-b/values.yaml'; data=yaml.safe_load(values.read_text()); data['service-a']['settings']['logLevel']='debug' if data['service-a']['settings']['logLevel']=='error' else 'error'; values.write_text(yaml.safe_dump(data,sort_keys=False))
  output=io.StringIO()
  with patch.object(sys,'argv',['render_groups.py','--charts',str(Path(args.charts).resolve()),'--helm',args.helm]),contextlib.redirect_stdout(output): module.main()
- assert 'Rendered 1 components; reused 101' in output.getvalue(),output.getvalue()
+ total_components=len(list((root/'tenants').glob('*/values.yaml')))*51
+ assert f'Rendered 1 components; reused {total_components-1}' in output.getvalue(),output.getvalue()
  assert state('tenant-one')==one_before
  b_after=state('tenant-b')
  for name in b_before['groups']:
