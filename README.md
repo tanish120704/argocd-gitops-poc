@@ -86,7 +86,7 @@ Documentation: https://argo-cd.readthedocs.io/en/stable/getting_started/
 
 2. Commit and push (or merge a pull request) to `main`.
 3. The Git-managed `tenants` ApplicationSet discovers the file within roughly
-   30 seconds, creates `tenant-<tenant-id>`, and syncs the umbrella platform ConfigMap and two service ConfigMaps
+   30 seconds, creates `tenant-<tenant-id>`, and syncs 50 service ConfigMaps and six umbrella ConfigMaps
    into namespace `tenant-<tenant-id>`. No Argo CD UI or CLI action is required.
 
 Use a lowercase DNS label for `<tenant-id>` (letters, numbers, hyphens; start
@@ -127,5 +127,27 @@ override them alongside `global.tenant` and service-specific settings.
 - Tenant B sets `support@tenant-b.example.com` and `featureEnabled: true`.
 
 The platform ConfigMap and both service ConfigMaps use the same tenant name
-and domain. The ApplicationSet is unchanged; all three ConfigMaps are part of
+and domain. The ApplicationSet is unchanged; all 56 ConfigMaps are part of
 one tenant Application in its dedicated namespace.
+
+## Expanded 50-service experiment
+
+The shared chart now contains 50 subcharts (service-a, service-b, service-03
+through service-50) and six standalone root templates. Each tenant Application
+manages 56 ConfigMaps, for 112 across the two sample tenants. No service pods
+are created; these snapshots exercise configuration inheritance at larger size.
+
+Tenant One supplies identity only. Tenant B supplies sparse overrides for 10
+services and all six root sections: platform, routing, notifications,
+observability, security, integrations. The remaining 40 services inherit
+shared defaults. Both samples include richer global tenant metadata.
+
+Inspect `tenant-b-service-a` for zero retries and a disabled cache; inspect
+`tenant-b-service-b` for an empty allowed-origins list. The `config.json` data
+entry on every ConfigMap shows the entire effective configuration.
+
+The chart repository's `scripts/verify.py` checks all 56 resources for either
+local Helm output or a live `kubectl get configmaps -o json` snapshot. See its
+README for setup and commands. ConfigMap settings are illustrative and are not
+consumed by running workloads. This experiment validates configuration behavior;
+it does not establish production capacity for hundreds of tenants.

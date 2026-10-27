@@ -1,4 +1,10 @@
+# Baseline tenant: inherits every service and umbrella default.
 global:
   tenant:
     name: tenant-one
     domain: tenant-one.example.com
+    id: tenant-one
+    region: local
+    tier: standard
+    locale: en-IN
+    timezone: Asia/Kolkata

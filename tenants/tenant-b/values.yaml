@@ -1,18 +1,225 @@
+# Sparse exceptions: 10 services customized; 40 inherit parent/subchart defaults.
+# Includes false, zero, empty-list, replacement-list, and partial nested-map cases.
 global:
   tenant:
     name: tenant-b
     domain: tenant-b.example.com
-
+    id: tenant-b
+    region: eu-west
+    tier: enterprise
+    locale: en-GB
+    timezone: Europe/London
 platform:
   supportEmail: support@tenant-b.example.com
   featureEnabled: true
-
+  displayName: Tenant B Enterprise
+  sessionTimeoutSeconds: 3600
+  branding:
+    theme: dark
+    primaryColor: '#cc3300'
 service-a:
-  message: "Custom message for tenant B"
+  message: Custom message for tenant B
   settings:
     logLevel: trace
-
+  runtime:
+    replicas: 3
+    image:
+      tag: 2.1.0
+  resources:
+    limits:
+      memory: 1Gi
+  features:
+    cacheEnabled: false
+    searchEnabled: true
+  retry:
+    maxAttempts: 0
+  tenantConfig:
+    displayName: Tenant B workspace
+    quota:
+      maxUsers: 2000
+    tags:
+    - enterprise
+    - pilot
 service-b:
   settings:
     logLevel: debug
     environment: staging
+    allowedOrigins: []
+  runtime:
+    workers: 8
+  integrations:
+    webhook:
+      enabled: true
+      url: https://tenant-b.example.com/hooks
+routing:
+  basePath: /tenant-b
+  cors:
+    allowedOrigins:
+    - https://tenant-b.example.com
+  rateLimit:
+    requestsPerMinute: 5000
+notifications:
+  senderName: Tenant B
+  senderEmail: notify@tenant-b.example.com
+  channels:
+  - email
+  - webhook
+  digest:
+    enabled: false
+observability:
+  logLevel: debug
+  tracing:
+    enabled: true
+    sampleRate: 0.5
+  labels:
+    team: tenant-b
+security:
+  passwordPolicy:
+    requireMfa: true
+  audit:
+    retentionDays: 365
+  allowedCidrs:
+  - 192.168.0.0/16
+integrations:
+  webhooks:
+    enabled: true
+    events: []
+  exports:
+    format: csv
+    batchSize: 1000
+service-03:
+  settings:
+    logLevel: warn
+    timeoutSeconds: 93
+  runtime:
+    replicas: 3
+  resources:
+    requests:
+      cpu: 250m
+  features:
+    betaEnabled: true
+  tenantConfig:
+    quota:
+      maxProjects: 103
+    tags:
+    - tenant-b
+    - group-3
+service-10:
+  settings:
+    logLevel: warn
+    timeoutSeconds: 100
+  runtime:
+    replicas: 4
+  resources:
+    requests:
+      cpu: 250m
+  features:
+    betaEnabled: true
+  tenantConfig:
+    quota:
+      maxProjects: 110
+    tags:
+    - tenant-b
+    - group-10
+service-15:
+  settings:
+    logLevel: warn
+    timeoutSeconds: 105
+  runtime:
+    replicas: 3
+  resources:
+    requests:
+      cpu: 250m
+  features:
+    betaEnabled: true
+  tenantConfig:
+    quota:
+      maxProjects: 115
+    tags:
+    - tenant-b
+    - group-15
+service-20:
+  settings:
+    logLevel: warn
+    timeoutSeconds: 110
+  runtime:
+    replicas: 5
+  resources:
+    requests:
+      cpu: 250m
+  features:
+    betaEnabled: true
+  tenantConfig:
+    quota:
+      maxProjects: 120
+    tags:
+    - tenant-b
+    - group-20
+service-25:
+  settings:
+    logLevel: warn
+    timeoutSeconds: 115
+  runtime:
+    replicas: 4
+  resources:
+    requests:
+      cpu: 250m
+  features:
+    betaEnabled: true
+  tenantConfig:
+    quota:
+      maxProjects: 125
+    tags:
+    - tenant-b
+    - group-25
+service-30:
+  settings:
+    logLevel: warn
+    timeoutSeconds: 120
+  runtime:
+    replicas: 3
+  resources:
+    requests:
+      cpu: 250m
+  features:
+    betaEnabled: true
+  tenantConfig:
+    quota:
+      maxProjects: 130
+    tags:
+    - tenant-b
+    - group-30
+service-40:
+  settings:
+    logLevel: warn
+    timeoutSeconds: 130
+  runtime:
+    replicas: 4
+  resources:
+    requests:
+      cpu: 250m
+  features:
+    betaEnabled: true
+  tenantConfig:
+    quota:
+      maxProjects: 140
+    tags:
+    - tenant-b
+    - group-40
+service-50:
+  settings:
+    logLevel: warn
+    timeoutSeconds: 140
+  runtime:
+    replicas: 5
+  resources:
+    requests:
+      cpu: 250m
+  features:
+    betaEnabled: true
+  tenantConfig:
+    quota:
+      maxProjects: 150
+    tags:
+    - tenant-b
+    - group-50
