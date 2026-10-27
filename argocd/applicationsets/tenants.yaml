@@ -23,8 +23,6 @@ spec:
         repoURL: git@github.com:tanish120704/argocd-gitops-poc.git
         targetRevision: refs/heads/main
         path: 'generated/tenants/{{ .path.basename }}/parent'
-        directory:
-          recurse: false
       destination:
         server: https://kubernetes.default.svc
         namespace: argocd

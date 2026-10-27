@@ -14,8 +14,6 @@ spec:
     repoURL: git@github.com:tanish120704/argocd-gitops-poc.git
     targetRevision: refs/heads/main
     path: generated/artifacts/tenant-b/to-revisit/4f6b2491b5153ea583349d7ff90c140ecc660a2672f640f2b582f666b116c90b
-    directory:
-      recurse: false
   destination:
     server: https://kubernetes.default.svc
     namespace: tenant-tenant-b
