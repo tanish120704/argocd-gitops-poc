@@ -1,115 +1,67 @@
-# Tenant app-of-apps with independently deployable services
+# Tenant parent plus four group Applications
 
-There is no pre-rendering pipeline. Argo CD renders Helm directly. Existing
-root chart values, tenant values, service charts, and standalone template content
-remain unchanged.
-
-## Hierarchy
+Each ordinary tenant has **five Applications total**: one parent and four groups.
+Services are Kubernetes resources inside their group, not individual Argo CD
+Applications. There is no extra platform Application and no pre-rendering system.
 
 ```text
-tenant-<tenant>                       # Tenant parent in project tenant-parents
-  <tenant>-foundation                # Group in project tenant-groups
-    six standalone ConfigMaps         # Deployed directly by Foundation
-    <tenant>-service-a               # Leaf Application in project tenants
-    <tenant>-service-b
-    <tenant>-service-03 ... service-12
-  <tenant>-core-platform
-    <tenant>-service-13 ... service-25
-  <tenant>-product-services
-    <tenant>-service-26 ... service-40
-  <tenant>-to-revisit
-    <tenant>-service-41 ... service-50
+tenant-tenant-b
+  tenant-b-foundation          # Directly deploys 12 services + six root templates
+  tenant-b-core-platform       # Directly deploys 13 services
+  tenant-b-product-services    # Directly deploys 15 services
+  tenant-b-to-revisit          # Directly deploys 10 services
 ```
 
-Each tenant has one parent, four group Applications, and 50 service Applications:
-**55 Applications per tenant**, or 54 excluding its parent. There is no extra
-platform Application. Across the two sample tenants plus the Argo CD control
-plane, there are **111 Applications** and still only **112 ConfigMaps**.
+## Where grouping is defined
 
-## Responsibilities and grouping
+Service membership is the `dependencies` list in the charts repo's
+`groups/<group>/Chart.yaml`. These small group charts reuse the existing
+`charts/<service>` subcharts through local file dependencies. Foundation also
+links to the existing six root templates. Argo CD builds missing local chart
+dependencies as needed. No individual service Application definitions exist.
 
-- `argocd/applicationsets/tenants.yaml` discovers `tenants/*/values.yaml`.
-- `applications/tenant-parent` renders the four group Application definitions.
-- The chart repo's `groups/<group>/values.yaml` lists member `_services`.
-- Group charts have **no service dependencies**. A shared Application template
-  points each service Application directly at its existing `charts/<service>`.
-- Foundation also reuses the six existing root templates and deploys their
-  resources directly into the tenant namespace.
-- Each service Application exclusively owns that service's Kubernetes resources.
+The group names and sync waves are in
+`applications/tenant-parent/values.yaml`. The parent template renders four
+Application objects, pointing to the four group charts. The ApplicationSet in
+`argocd/applicationsets/tenants.yaml` discovers `tenants/*/values.yaml` and creates
+one such parent per tenant. Parent-driven waves order the four group Applications;
+subsequent group reconciliation remains independent rather than transactional.
 
-All Application-definition templates and group membership are platform-owned.
-The `tenant-groups` AppProject permits Application objects in `argocd` and
-ConfigMaps in tenant namespaces, making its source an administrative trust
-boundary. Service Applications use the narrower `tenants` project. Tenant inputs
-and changes to platform-owned sources require appropriate repository reviews.
+## Values and updates
 
-## Values without changing tenant input
+Each child loads the chart repo root `values.yaml` and then this repository's
+`tenants/<id>/values.yaml`, using Argo CD multi-source values references. Both
+files retain their existing structure. Helm merges subchart defaults, root service
+defaults, and tenant overrides; shared `global.tenant` reaches every service and
+Foundation's standalone templates. Each resource has one group Application owner.
 
-Groups load the chart repository root `values.yaml` and then the tenant file
-through Argo CD multi-source value references. Each service Application receives
-only its merged service block plus shared `global` via `helm.valuesObject`.
-The standalone service chart then supplies its remaining defaults:
+A Tenant B Service B override changes the Service B resource in Tenant B's
+Foundation Application. Other group Applications retain identical desired
+resources unless the changed setting is shared and used there. Shared repository
+commits may trigger checks or renders elsewhere without causing deployment.
 
-```text
-Subchart defaults → root service defaults → tenant service overrides
-```
+To onboard, add `tenants/<id>/values.yaml`, commit, and push. To update, edit that
+tenant's values or the relevant shared chart/default. No generation step or manual
+Application creation is needed. A group, rather than each individual service,
+is the sync and chart-release boundary in this model.
 
-For example, root `service-b.settings` and tenant `service-b.settings` become
-`.Values.settings` inside the Service B chart. Root and tenant `global` values
-become `.Values.global`. No tenant file is split or rewritten.
+## Ownership and migration
 
-Foundation's standalone templates read their usual root keys (`platform`,
-`routing`, `security`, etc.) and the same tenant identity. No extra platform
-Application or service bundle is introduced.
+Tenant parents use project `tenant-parents` and manage Application definitions
+in `argocd`. Groups use project `tenant-groups` and directly manage tenant
+ConfigMaps. The previous service Applications are removed only after their
+ConfigMaps have been adopted by groups with identical names, UIDs, and data.
+Parent pruning stays disabled; group pruning and self-healing are enabled after
+the migration. Tenant offboarding and real data-retention policy remain explicit
+operator operations outside this configuration-only POC.
 
-## Independent updates and versions
+Root `argocd/application-health-patch.yaml` allows parents to wait for group sync
+and health; it avoids a circular health dependency for the self-managing Argo CD
+Application.
 
-A Tenant B Service B override changes only `tenant-b-service-b`'s Application
-values. Foundation may become OutOfSync while it updates that child definition;
-Service B then syncs its own resource. Other service definitions and Foundation's
-standalone configuration stay identical. Shared `global` changes may legitimately
-affect multiple services and the standalone configuration.
+## Verify and inspect
 
-Each service has its own chart `targetRevision`, sync operation, health, and
-resource ownership. Membership files define `_chartsRevision` as the default and
-`_serviceRevisions` as an optional service-name-to-Git-revision map. These are
-platform-owned deployment settings; service overrides remain in existing tenant
-values. The POC defaults to `refs/heads/main`, so a shared chart change can affect
-the corresponding service for all tenants. Production promotion should pin and
-advance compatible revisions deliberately.
-
-Shared repositories may trigger refresh/render checks for other Applications.
-Refreshes do not imply manifest changes or deployments.
-
-## Ordering and lifecycle
-
-The tenant parent orders groups in waves 0–3. Within Foundation, standalone
-ConfigMaps use default wave 0 and service Application definitions use wave 1.
-Application health customization waits for children to report Synced and Healthy.
-This provides initial parent-driven ordering; children subsequently reconcile
-independently. It is not a transactional upgrade engine for arbitrary later
-changes. ConfigMaps being Healthy is not evidence that real workloads are ready.
-
-Group pruning is disabled during resource adoption, then restored after leaf
-Applications own all service resources. Leaf Applications have pruning and
-self-healing enabled. Tenant-parent pruning stays disabled; tenant offboarding
-and data retention are explicit operator actions. Service Application definitions
-do not have cascading-deletion finalizers in this POC, so deleting a definition
-is not an automatic service-data cleanup mechanism.
-
-## Onboard, update, and inspect
-
-Add or edit `tenants/<id>/values.yaml`, commit, and push. There is no generation
-step and no need for the developer to create Applications in Argo CD.
-
-```sh
-kubectl --context colima -n argocd get applications
-kubectl --context colima -n argocd get application tenant-b-service-b
-kubectl --context colima -n tenant-tenant-b get configmaps
-```
-
-Local verification requires Helm 3+, Python 3.9+, PyYAML, and a sibling chart
-checkout:
+Requires Helm 3+, Python 3.9+, PyYAML, and a sibling charts checkout:
 
 ```sh
 python3 -m venv .venv
@@ -117,38 +69,37 @@ python3 -m venv .venv
 .venv/bin/python tools/verify_helm_groups.py --charts ../helm-values-poc
 helm template parent applications/tenant-parent --set tenantId=tenant-b
 kubectl kustomize argocd >/dev/null
+kubectl --context colima -n argocd get applications
 ```
 
-Verification renders all 50 service Applications and then each service chart,
-combines their ConfigMaps with the six Foundation ConfigMaps, and compares all
-56 resources to the original umbrella render for each tenant. It also verifies
-that a Service B-only override changes only its Application definition.
+The verifier compares all four group renders to the original root render for
+both tenants (56 ConfigMaps each), rejects resource overlap, and confirms that a
+Service B-only override changes only its Foundation ConfigMap.
 
-UI access:
+## Single-Application umbrella migration baseline
+
+`argocd/umbrella-tenant.yaml` separately deploys `umbrella-tenant` from the root
+chart, with all 50 dependencies and six root templates in namespace
+`tenant-umbrella-tenant`. It remains one Application with no children and is
+outside ApplicationSet discovery. It has not been migrated in this change.
+
+Across Tenant One, Tenant B, the umbrella baseline, and the control plane, there
+are **12 Applications** and **168 ConfigMaps** (56 per tenant). No service pods
+or DNS are provisioned; this is not a production capacity benchmark.
+
+## UI
 
 ```sh
 kubectl --context colima -n argocd port-forward --address 127.0.0.1 svc/argocd-server 8080:443
 ```
 
-Open https://localhost:8080, user `admin`, accepting the self-signed certificate.
-Retrieve the initial password locally with:
+Open https://localhost:8080 (self-signed certificate), username `admin`. Retrieve
+the initial password locally:
 
 ```sh
 kubectl --context colima -n argocd get secret argocd-initial-admin-secret \
   -o jsonpath='{.data.password}' | base64 --decode
 ```
 
-This remains a configuration POC: no service workloads or DNS are provisioned.
-Application count and controller load must be measured before scaling to hundreds
-of tenants. GitHub credentials remain read-only Kubernetes repository Secrets;
-no generated-output CI key or pipeline is needed.
-
-## Legacy umbrella tenant for migration POC
-
-`argocd/umbrella-tenant.yaml` defines a separate Application named
-`umbrella-tenant` that renders the **root chart** (`path: .`) with all 50 service
-dependencies and six root templates in namespace `tenant-umbrella-tenant`.
-It has no child Applications. It uses the root defaults and sets only its tenant
-name, ID, and domain. It is deliberately outside `tenants/*/values.yaml` discovery
-so the ApplicationSet does not create a second deployment tree for this tenant.
-The control-plane Application manages its definition in Git.
+Both repos track `refs/heads/main` for the POC. Private Git access uses existing
+read-only Kubernetes repository Secrets. No CI generation key is needed.

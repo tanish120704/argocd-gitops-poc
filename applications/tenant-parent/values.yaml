@@ -12,5 +12,5 @@ groups:
   - name: to-revisit
     wave: 3
 
-# Temporarily disabled while groups reclaim service resources.
-groupPrune: false
+# Groups directly own their service and umbrella resources.
+groupPrune: true
