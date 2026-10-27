@@ -86,7 +86,7 @@ Documentation: https://argo-cd.readthedocs.io/en/stable/getting_started/
 
 2. Commit and push (or merge a pull request) to `main`.
 3. The Git-managed `tenants` ApplicationSet discovers the file within roughly
-   30 seconds, creates `tenant-<tenant-id>`, and syncs the two service ConfigMaps
+   30 seconds, creates `tenant-<tenant-id>`, and syncs the umbrella platform ConfigMap and two service ConfigMaps
    into namespace `tenant-<tenant-id>`. No Argo CD UI or CLI action is required.
 
 Use a lowercase DNS label for `<tenant-id>` (letters, numbers, hyphens; start
@@ -116,3 +116,16 @@ remains. Treat folder deletion or renaming as tenant offboarding.
 For this POC both sources track `main`, so shared chart changes affect all
 tenants. Pin the chart source to an immutable tag or commit when controlled
 tenant-by-tenant upgrades become necessary.
+
+## Umbrella defaults and tenant overrides
+
+The chart also renders `<release>-platform` from its root `templates/`
+directory. Root `platform` settings have shared defaults; tenant values can
+override them alongside `global.tenant` and service-specific settings.
+
+- Tenant One inherits `support@example.com` and `featureEnabled: false`.
+- Tenant B sets `support@tenant-b.example.com` and `featureEnabled: true`.
+
+The platform ConfigMap and both service ConfigMaps use the same tenant name
+and domain. The ApplicationSet is unchanged; all three ConfigMaps are part of
+one tenant Application in its dedicated namespace.

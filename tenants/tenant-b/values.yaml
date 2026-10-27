@@ -3,6 +3,10 @@ global:
     name: tenant-b
     domain: tenant-b.example.com
 
+platform:
+  supportEmail: support@tenant-b.example.com
+  featureEnabled: true
+
 service-a:
   message: "Custom message for tenant B"
   settings:
