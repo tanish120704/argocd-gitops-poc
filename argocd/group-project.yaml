@@ -4,20 +4,16 @@ metadata:
   name: tenant-groups
   namespace: argocd
 spec:
-  description: Platform-owned groups managing service Applications and Foundation configuration
+  description: Group charts directly managing tenant service and umbrella configuration
   sourceRepos:
-    - git@github.com:tanish120704/helm-values-poc.git
-    - git@github.com:tanish120704/argocd-gitops-poc.git
+  - git@github.com:tanish120704/helm-values-poc.git
+  - git@github.com:tanish120704/argocd-gitops-poc.git
   destinations:
-    - server: https://kubernetes.default.svc
-      namespace: argocd
-    - server: https://kubernetes.default.svc
-      namespace: tenant-*
+  - server: https://kubernetes.default.svc
+    namespace: tenant-*
   clusterResourceWhitelist:
-    - group: ''
-      kind: Namespace
+  - group: ''
+    kind: Namespace
   namespaceResourceWhitelist:
-    - group: argoproj.io
-      kind: Application
-    - group: ''
-      kind: ConfigMap
+  - group: ''
+    kind: ConfigMap
