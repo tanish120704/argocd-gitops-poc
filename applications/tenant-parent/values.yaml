@@ -12,5 +12,5 @@ groups:
   - name: to-revisit
     wave: 3
 
-# Groups prune their own Application definitions and Foundation configuration.
-groupPrune: true
+# Temporarily disabled while groups reclaim service resources.
+groupPrune: false
