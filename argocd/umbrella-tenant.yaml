@@ -4,27 +4,21 @@ metadata:
   name: umbrella-tenant
   namespace: argocd
 spec:
-  project: tenants
+  project: tenant-parents
   source:
-    repoURL: git@github.com:tanish120704/helm-values-poc.git
+    repoURL: git@github.com:tanish120704/argocd-gitops-poc.git
     targetRevision: refs/heads/main
-    path: .
+    path: applications/tenant-parent
     helm:
-      releaseName: umbrella-tenant
       valuesObject:
-        global:
-          tenant:
-            name: umbrella-tenant
-            id: umbrella-tenant
-            domain: umbrella-tenant.example.com
+        tenantId: umbrella-tenant
+        tenantValuesPath: legacy-tenants/umbrella-tenant/values.yaml
+        groupPrune: false
   destination:
     server: https://kubernetes.default.svc
-    namespace: tenant-umbrella-tenant
+    namespace: argocd
   syncPolicy:
     automated:
-      enabled: false
       prune: false
-      selfHeal: false
+      selfHeal: true
       allowEmpty: false
-    syncOptions:
-    - CreateNamespace=true
