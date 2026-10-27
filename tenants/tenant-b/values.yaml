@@ -1,0 +1,14 @@
+global:
+  tenant:
+    name: tenant-b
+    domain: tenant-b.example.com
+
+service-a:
+  message: "Custom message for tenant B"
+  settings:
+    logLevel: trace
+
+service-b:
+  settings:
+    logLevel: debug
+    environment: staging
