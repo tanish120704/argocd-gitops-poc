@@ -103,3 +103,20 @@ kubectl --context colima -n argocd get secret argocd-initial-admin-secret \
 
 Both repos track `refs/heads/main` for the POC. Private Git access uses existing
 read-only Kubernetes repository Secrets. No CI generation key is needed.
+
+## Foundation's internal order
+
+Every tenant inherits Foundation's internal waves from the chart repo's
+`groups/foundation/values.yaml`: shared standalone configuration at wave `-1`,
+Service A at `0`, Service B at `1`, and Services 03–12 at `2`–`11`. No new
+Applications are introduced, and existing tenant values are unchanged.
+
+These resource waves operate inside each Foundation Application, independently
+of the tenant parent's group waves. A tenant can override a service's `syncWave`
+with a non-negative integer if a different order is explicitly intended. The
+local verifier checks the order, zero handling, schema validation, metadata-only
+overrides, unchanged group/data rendering, and unchanged behavior in other groups.
+
+The current resources are ConfigMaps. A healthy ConfigMap confirms it was applied,
+not that a service is running. Workload startup guarantees require real workload
+health checks; sync waves are not continuous runtime dependency management.
