@@ -48,3 +48,11 @@ for tenant in ['tenant-one','tenant-b']:
    differences=[key for key in changed if changed[key]!=groups_before[group][key]]
    assert differences==([('Application','tenant-b-service-b')] if group=='foundation' else []),differences
   print('Service B override changes only Service B Application values; all other Apps and Foundation configuration remain identical.')
+
+# A service chart revision can also be selected independently of group peers.
+revision=subprocess.check_output(['git','-C',str(charts),'rev-parse','HEAD'],text=True).strip()
+before=indexed(render(charts/'groups/foundation','tenant-b'))
+after=indexed(render(charts/'groups/foundation','tenant-b',['--set',f'_serviceRevisions.service-b={revision}']))
+assert [key for key in after if after[key]!=before[key]]==[('Application','tenant-b-service-b')]
+assert after[('Application','tenant-b-service-b')]['spec']['source']['targetRevision']==revision
+print('Service B chart revision can be pinned independently without changing any peer Application.')

@@ -12,5 +12,5 @@ groups:
   - name: to-revisit
     wave: 3
 
-# Disabled during the migration of service resources to leaf Applications.
-groupPrune: false
+# Groups prune their own Application definitions and Foundation configuration.
+groupPrune: true
