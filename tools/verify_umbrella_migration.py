@@ -12,6 +12,10 @@ p.add_argument('--helm', default='helm')
 p.add_argument('--before', required=True, help='Legacy ConfigMap list JSON')
 p.add_argument('--legacy-values', required=True, help='Original inline Helm values extracted as YAML')
 p.add_argument('--after', help='Optional post-migration ConfigMap list JSON')
+p.add_argument('--before-app')
+p.add_argument('--after-apps')
+p.add_argument('--before-namespace')
+p.add_argument('--after-namespace')
 p.add_argument('--report', required=True)
 a=p.parse_args()
 charts=Path(a.charts).resolve(); root=Path(__file__).resolve().parents[1]
@@ -63,6 +67,23 @@ if a.after:
  assert all(canonical(after[k])==canonical(before[k]) for k in before), 'STOP: tenant resource changed'
  assert all(after[k]['metadata']['annotations'][tracking].split(':')[0]==expected_owners[k] for k in before), 'STOP: incorrect group ownership'
  report.update({'live_after_differences':0,'resource_uid_changes':0,'tracking_owner_changes':sum(before[k]['metadata']['annotations'].get(tracking)!=after[k]['metadata']['annotations'].get(tracking) for k in before),'ownership_verified':True})
+for before_path,after_path,label in [(a.before_namespace,a.after_namespace,'namespace'),(a.before_app,a.after_apps,'parent_application')]:
+ assert bool(before_path)==bool(after_path), f'Provide both snapshots for {label}'
+ if before_path:
+  old=json.loads(Path(before_path).read_text()); new=json.loads(Path(after_path).read_text())
+  if label=='parent_application':
+   applications={d['metadata']['name']:d for d in new['items']}
+   new=applications[release]
+   expected_apps={release}|set(expected_owners.values())
+   assert {name for name in applications if name==release or name.startswith(release+'-')}==expected_apps
+   for name in expected_apps:
+    app=applications[name]
+    assert app['status']['sync']['status']=='Synced' and app['status']['health']['status']=='Healthy', name
+    assert not app['status'].get('conditions'), f'{name}: Application conditions present'
+    if name!=release: assert app['spec']['syncPolicy']['automated']['prune'], f'{name}: normal pruning not restored'
+  assert old['metadata']['uid']==new['metadata']['uid'], f'STOP: {label} recreated'
+  report[label+'_uid']=new['metadata']['uid']
+  report[label+'_uid_changed']=False
 Path(a.report).parent.mkdir(parents=True,exist_ok=True)
 Path(a.report).write_text(json.dumps(report,indent=2,sort_keys=True)+'\n')
 print(json.dumps({k:v for k,v in report.items() if k!='payload_sha256'},indent=2))

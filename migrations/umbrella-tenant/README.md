@@ -38,7 +38,10 @@ Example verification (paths are local snapshots, never Kubernetes Secrets):
 python tools/verify_umbrella_migration.py --charts ../helm-values-poc \
   --legacy-values /path/to/original-inline-values.yaml \
   --before /path/to/before-configmaps.json \
-  --after /path/to/after-configmaps.json --report /path/to/audit.json
+  --after /path/to/after-configmaps.json \
+  --before-app /path/to/before-app.json --after-apps /path/to/after-apps.json \
+  --before-namespace /path/to/before-namespace.json \
+  --after-namespace /path/to/after-namespace.json --report /path/to/audit.json
 ```
 
 The comparison excludes Kubernetes server bookkeeping and exactly two annotations:
@@ -62,3 +65,5 @@ This POC contains ConfigMaps only. Its result establishes preservation of those
 objects, not application traffic, database compatibility, or production zero downtime.
 Real workload migrations additionally need full rendered-spec comparison, admission
 mutation handling, readiness/traffic checks, and an observed rollback exercise.
+
+The completed local POC result is recorded in [audit.json](audit.json): 56 exact resource matches, zero UID changes, zero namespace or parent UID changes, and 56 verified tracking-owner transfers. All five tenant Applications finished Synced/Healthy with child pruning enabled. The verifier was also checked against injected data, wave-annotation, and UID changes; all three were rejected.
