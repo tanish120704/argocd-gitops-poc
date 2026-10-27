@@ -63,8 +63,7 @@ kubectl --context colima -n argocd get pods
 ```
 
 The `argocd` Application should report `Synced` and `Healthy`. Its revision
-should match the `main` branch commit. The earlier `helm-values-poc` repository
-is separate; it has not yet been registered as an Argo CD Application.
+should match the `main` branch commit. Tenant Applications are generated automatically from `tenants/*/values.yaml`.
 
 ## Updates
 
@@ -73,3 +72,47 @@ and push. To upgrade Argo CD, replace the vendored manifest with an explicitly
 versioned upstream release and review the release's upgrade guidance first.
 
 Documentation: https://argo-cd.readthedocs.io/en/stable/getting_started/
+
+## Onboard a tenant entirely through Git
+
+1. Create `tenants/<tenant-id>/values.yaml` containing:
+
+   ```yaml
+   global:
+     tenant:
+       name: tenant-two
+       domain: tenant-two.example.com
+   ```
+
+2. Commit and push (or merge a pull request) to `main`.
+3. The Git-managed `tenants` ApplicationSet discovers the file within roughly
+   30 seconds, creates `tenant-<tenant-id>`, and syncs the two service ConfigMaps
+   into namespace `tenant-<tenant-id>`. No Argo CD UI or CLI action is required.
+
+Use a lowercase DNS label for `<tenant-id>` (letters, numbers, hyphens; start
+and end with a letter or number), at most 46 characters to leave room for the
+namespace and resource name prefixes/suffixes. Folder identity controls the
+Application and namespace; `global.tenant.name` is the business-facing name.
+
+`argocd/applicationsets/tenants.yaml` is the Git-tracked Application template.
+Concrete Applications are generated in the cluster, rather than duplicated as
+per-tenant YAML files in Git. Each Application uses two sources: the shared
+chart repo and this repo's tenant values. Shared chart defaults load first,
+then the tenant file overrides them. Both subcharts receive `global.tenant`.
+
+The `tenants` AppProject limits tenant Applications to the two repositories,
+tenant namespaces, ConfigMaps, and namespace creation. It must be extended
+when the POC gains other resource types. Tenant domains are data only; this
+POC does not configure DNS, ingress, or running service containers.
+
+The chart repository has its own read-only GitHub deploy key, stored in the
+`helm-values-repository` Secret in `argocd`. Rebuilding the cluster requires
+recreating that repository credential, as with the GitOps repo credential.
+
+Deleting a tenant folder causes the ApplicationSet to delete its generated
+Application and its managed ConfigMaps. The automatically created namespace
+remains. Treat folder deletion or renaming as tenant offboarding.
+
+For this POC both sources track `main`, so shared chart changes affect all
+tenants. Pin the chart source to an immutable tag or commit when controlled
+tenant-by-tenant upgrades become necessary.

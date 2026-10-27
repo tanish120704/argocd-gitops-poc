@@ -5,3 +5,5 @@ resources:
   - namespace.yaml
   - vendor/install.yaml
   - application.yaml
+  - tenant-project.yaml
+  - applicationsets/tenants.yaml

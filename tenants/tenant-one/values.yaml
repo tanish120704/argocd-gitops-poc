@@ -1,0 +1,4 @@
+global:
+  tenant:
+    name: tenant-one
+    domain: tenant-one.example.com
