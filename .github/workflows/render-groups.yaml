@@ -1,0 +1,61 @@
+name: Validate and render tenant groups
+on:
+  push:
+    branches: [main]
+    paths: ['tenants/**', 'catalog/**', 'releases/**', 'tools/**', '.github/workflows/render-groups.yaml']
+  pull_request:
+    paths: ['tenants/**', 'catalog/**', 'releases/**', 'tools/**', '.github/workflows/render-groups.yaml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: tenant-render-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Read pinned chart revision
+        id: charts
+        run: |
+          python - <<'PY'
+          import json, os, re
+          lock=json.load(open('releases/charts.json'))
+          assert re.fullmatch(r'[0-9a-f]{40}',lock['revision'])
+          with open(os.environ['GITHUB_OUTPUT'],'a') as out:
+              out.write('revision='+lock['revision']+'\n')
+          PY
+      - uses: actions/checkout@v4
+        with:
+          repository: tanish120704/helm-values-poc
+          ref: ${{ steps.charts.outputs.revision }}
+          path: work/chart-sources
+          ssh-key: ${{ secrets.CHARTS_READ_KEY }}
+          persist-credentials: false
+      - name: Install pinned rendering dependencies
+        run: |
+          python -m pip install -r tools/requirements.txt
+          curl -fsSLo /tmp/helm.tar.gz https://get.helm.sh/helm-v3.19.0-linux-amd64.tar.gz
+          curl -fsSLo /tmp/helm.tar.gz.sha256sum https://get.helm.sh/helm-v3.19.0-linux-amd64.tar.gz.sha256sum
+          expected=$(awk '{print $1}' /tmp/helm.tar.gz.sha256sum)
+          printf '%s  /tmp/helm.tar.gz\n' "$expected" | sha256sum --check
+          tar -xzf /tmp/helm.tar.gz -C /tmp
+          sudo install /tmp/linux-amd64/helm /usr/local/bin/helm
+      - name: Generate group artifacts and test isolation
+        run: |
+          python tools/render_groups.py --charts work/chart-sources
+          python tools/render_groups.py --charts work/chart-sources --check
+          python tools/test_groups.py --charts work/chart-sources
+          git diff --stat -- generated
+      - name: Save generated deployment state
+        if: github.event_name != 'pull_request'
+        run: |
+          git add generated
+          if ! git diff --cached --quiet; then
+            git -c user.name=gitops-renderer -c user.email=gitops-renderer@users.noreply.github.com commit -m 'Regenerate tenant group deployment artifacts'
+            git push origin HEAD:main
+          fi

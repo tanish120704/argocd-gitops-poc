@@ -2,3 +2,6 @@
 *.key
 *.pem
 .secrets/
+work/
+__pycache__/
+.venv/

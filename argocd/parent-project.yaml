@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: tenant-parents
+  namespace: argocd
+spec:
+  description: Platform-owned parent Applications managing tenant child Applications
+  sourceRepos:
+    - git@github.com:tanish120704/argocd-gitops-poc.git
+  destinations:
+    - server: https://kubernetes.default.svc
+      namespace: argocd
+  clusterResourceWhitelist: []
+  namespaceResourceWhitelist:
+    - group: argoproj.io
+      kind: Application

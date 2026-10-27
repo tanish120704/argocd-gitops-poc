@@ -1,0 +1,528 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tenant-b-integrations
+  labels:
+    poc.example.com/role: umbrella
+    poc.example.com/section: integrations
+data:
+  tenantName: tenant-b
+  tenantDomain: tenant-b.example.com
+  config.json: "{\n  \"settings\": {\n    \"exports\": {\n      \"batchSize\": 1000,\n\
+    \      \"enabled\": true,\n      \"format\": \"csv\"\n    },\n    \"externalApi\"\
+    : {\n      \"baseUrl\": \"https://api.example.com\",\n      \"timeoutSeconds\"\
+    : 15\n    },\n    \"webhooks\": {\n      \"enabled\": true,\n      \"events\"\
+    : [],\n      \"timeoutSeconds\": 10\n    }\n  },\n  \"tenant\": {\n    \"domain\"\
+    : \"tenant-b.example.com\",\n    \"id\": \"tenant-b\",\n    \"locale\": \"en-GB\"\
+    ,\n    \"name\": \"tenant-b\",\n    \"region\": \"eu-west\",\n    \"tier\": \"\
+    enterprise\",\n    \"timezone\": \"Europe/London\"\n  }\n}\n"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tenant-b-notifications
+  labels:
+    poc.example.com/role: umbrella
+    poc.example.com/section: notifications
+data:
+  tenantName: tenant-b
+  tenantDomain: tenant-b.example.com
+  config.json: "{\n  \"settings\": {\n    \"channels\": [\n      \"email\",\n    \
+    \  \"webhook\"\n    ],\n    \"digest\": {\n      \"enabled\": false,\n      \"\
+    hour\": 9\n    },\n    \"enabled\": true,\n    \"retry\": {\n      \"backoffSeconds\"\
+    : 5,\n      \"maxAttempts\": 3\n    },\n    \"senderEmail\": \"notify@tenant-b.example.com\"\
+    ,\n    \"senderName\": \"Tenant B\"\n  },\n  \"tenant\": {\n    \"domain\": \"\
+    tenant-b.example.com\",\n    \"id\": \"tenant-b\",\n    \"locale\": \"en-GB\"\
+    ,\n    \"name\": \"tenant-b\",\n    \"region\": \"eu-west\",\n    \"tier\": \"\
+    enterprise\",\n    \"timezone\": \"Europe/London\"\n  }\n}\n"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tenant-b-observability
+  labels:
+    poc.example.com/role: umbrella
+    poc.example.com/section: observability
+data:
+  tenantName: tenant-b
+  tenantDomain: tenant-b.example.com
+  config.json: "{\n  \"settings\": {\n    \"labels\": {\n      \"environment\": \"\
+    poc\",\n      \"team\": \"tenant-b\"\n    },\n    \"logLevel\": \"debug\",\n \
+    \   \"metrics\": {\n      \"enabled\": true,\n      \"intervalSeconds\": 30\n\
+    \    },\n    \"retentionDays\": 14,\n    \"tracing\": {\n      \"enabled\": true,\n\
+    \      \"sampleRate\": 0.5\n    }\n  },\n  \"tenant\": {\n    \"domain\": \"tenant-b.example.com\"\
+    ,\n    \"id\": \"tenant-b\",\n    \"locale\": \"en-GB\",\n    \"name\": \"tenant-b\"\
+    ,\n    \"region\": \"eu-west\",\n    \"tier\": \"enterprise\",\n    \"timezone\"\
+    : \"Europe/London\"\n  }\n}\n"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tenant-b-platform
+  labels:
+    poc.example.com/role: umbrella
+    poc.example.com/section: platform
+data:
+  tenantName: tenant-b
+  tenantDomain: tenant-b.example.com
+  supportEmail: support@tenant-b.example.com
+  featureEnabled: 'true'
+  config.json: "{\n  \"settings\": {\n    \"branding\": {\n      \"primaryColor\"\
+    : \"#cc3300\",\n      \"theme\": \"dark\"\n    },\n    \"displayName\": \"Tenant\
+    \ B Enterprise\",\n    \"featureEnabled\": true,\n    \"maintenance\": {\n   \
+    \   \"enabled\": false,\n      \"message\": \"Scheduled maintenance\"\n    },\n\
+    \    \"sessionTimeoutSeconds\": 3600,\n    \"supportEmail\": \"support@tenant-b.example.com\"\
+    \n  },\n  \"tenant\": {\n    \"domain\": \"tenant-b.example.com\",\n    \"id\"\
+    : \"tenant-b\",\n    \"locale\": \"en-GB\",\n    \"name\": \"tenant-b\",\n   \
+    \ \"region\": \"eu-west\",\n    \"tier\": \"enterprise\",\n    \"timezone\": \"\
+    Europe/London\"\n  }\n}\n"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tenant-b-routing
+  labels:
+    poc.example.com/role: umbrella
+    poc.example.com/section: routing
+data:
+  tenantName: tenant-b
+  tenantDomain: tenant-b.example.com
+  config.json: "{\n  \"settings\": {\n    \"basePath\": \"/tenant-b\",\n    \"cors\"\
+    : {\n      \"allowedMethods\": [\n        \"GET\",\n        \"POST\"\n      ],\n\
+    \      \"allowedOrigins\": [\n        \"https://tenant-b.example.com\"\n     \
+    \ ],\n      \"enabled\": true\n    },\n    \"rateLimit\": {\n      \"enabled\"\
+    : true,\n      \"requestsPerMinute\": 5000\n    },\n    \"requestTimeoutSeconds\"\
+    : 30,\n    \"tlsEnabled\": true\n  },\n  \"tenant\": {\n    \"domain\": \"tenant-b.example.com\"\
+    ,\n    \"id\": \"tenant-b\",\n    \"locale\": \"en-GB\",\n    \"name\": \"tenant-b\"\
+    ,\n    \"region\": \"eu-west\",\n    \"tier\": \"enterprise\",\n    \"timezone\"\
+    : \"Europe/London\"\n  }\n}\n"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tenant-b-security
+  labels:
+    poc.example.com/role: umbrella
+    poc.example.com/section: security
+data:
+  tenantName: tenant-b
+  tenantDomain: tenant-b.example.com
+  config.json: "{\n  \"settings\": {\n    \"allowedCidrs\": [\n      \"192.168.0.0/16\"\
+    \n    ],\n    \"audit\": {\n      \"enabled\": true,\n      \"retentionDays\"\
+    : 365\n    },\n    \"passwordPolicy\": {\n      \"minimumLength\": 12,\n     \
+    \ \"requireMfa\": true\n    },\n    \"session\": {\n      \"sameSite\": \"Lax\"\
+    ,\n      \"secureCookies\": true\n    }\n  },\n  \"tenant\": {\n    \"domain\"\
+    : \"tenant-b.example.com\",\n    \"id\": \"tenant-b\",\n    \"locale\": \"en-GB\"\
+    ,\n    \"name\": \"tenant-b\",\n    \"region\": \"eu-west\",\n    \"tier\": \"\
+    enterprise\",\n    \"timezone\": \"Europe/London\"\n  }\n}\n"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tenant-b-service-03
+  labels:
+    poc.example.com/role: service
+    poc.example.com/service: service-03
+data:
+  message: service-03 configured by parent chart
+  environment: poc
+  logLevel: warn
+  tenantName: tenant-b
+  tenantDomain: tenant-b.example.com
+  config.json: "{\n  \"features\": {\n    \"betaEnabled\": true,\n    \"cacheEnabled\"\
+    : true,\n    \"searchEnabled\": false\n  },\n  \"integrations\": {\n    \"export\"\
+    : {\n      \"enabled\": true,\n      \"format\": \"json\"\n    },\n    \"webhook\"\
+    : {\n      \"enabled\": false,\n      \"url\": \"https://hooks.example.com/default\"\
+    \n    }\n  },\n  \"message\": \"service-03 configured by parent chart\",\n  \"\
+    resources\": {\n    \"limits\": {\n      \"cpu\": \"500m\",\n      \"memory\"\
+    : \"256Mi\"\n    },\n    \"requests\": {\n      \"cpu\": \"250m\",\n      \"memory\"\
+    : \"128Mi\"\n    }\n  },\n  \"retry\": {\n    \"backoffSeconds\": 2,\n    \"maxAttempts\"\
+    : 3\n  },\n  \"runtime\": {\n    \"health\": {\n      \"intervalSeconds\": 10,\n\
+    \      \"path\": \"/healthz\"\n    },\n    \"image\": {\n      \"repository\"\
+    : \"example/service-03\",\n      \"tag\": \"1.0.0\"\n    },\n    \"replicas\"\
+    : 3,\n    \"workers\": 4\n  },\n  \"settings\": {\n    \"allowedOrigins\": [\n\
+    \      \"https://default.example.com\"\n    ],\n    \"environment\": \"poc\",\n\
+    \    \"logLevel\": \"warn\",\n    \"port\": 8003,\n    \"timeoutSeconds\": 93\n\
+    \  },\n  \"tenant\": {\n    \"domain\": \"tenant-b.example.com\",\n    \"id\"\
+    : \"tenant-b\",\n    \"locale\": \"en-GB\",\n    \"name\": \"tenant-b\",\n   \
+    \ \"region\": \"eu-west\",\n    \"tier\": \"enterprise\",\n    \"timezone\": \"\
+    Europe/London\"\n  },\n  \"tenantConfig\": {\n    \"displayName\": \"Default workspace\"\
+    ,\n    \"quota\": {\n      \"maxProjects\": 103,\n      \"maxUsers\": 500\n  \
+    \  },\n    \"tags\": [\n      \"tenant-b\",\n      \"group-3\"\n    ]\n  }\n}\n"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tenant-b-service-04
+  labels:
+    poc.example.com/role: service
+    poc.example.com/service: service-04
+data:
+  message: service-04 configured by parent chart
+  environment: poc
+  logLevel: warn
+  tenantName: tenant-b
+  tenantDomain: tenant-b.example.com
+  config.json: "{\n  \"features\": {\n    \"betaEnabled\": false,\n    \"cacheEnabled\"\
+    : true,\n    \"searchEnabled\": false\n  },\n  \"integrations\": {\n    \"export\"\
+    : {\n      \"enabled\": true,\n      \"format\": \"json\"\n    },\n    \"webhook\"\
+    : {\n      \"enabled\": false,\n      \"url\": \"https://hooks.example.com/default\"\
+    \n    }\n  },\n  \"message\": \"service-04 configured by parent chart\",\n  \"\
+    resources\": {\n    \"limits\": {\n      \"cpu\": \"500m\",\n      \"memory\"\
+    : \"256Mi\"\n    },\n    \"requests\": {\n      \"cpu\": \"100m\",\n      \"memory\"\
+    : \"128Mi\"\n    }\n  },\n  \"retry\": {\n    \"backoffSeconds\": 2,\n    \"maxAttempts\"\
+    : 3\n  },\n  \"runtime\": {\n    \"health\": {\n      \"intervalSeconds\": 10,\n\
+    \      \"path\": \"/healthz\"\n    },\n    \"image\": {\n      \"repository\"\
+    : \"example/service-04\",\n      \"tag\": \"1.0.0\"\n    },\n    \"replicas\"\
+    : 2,\n    \"workers\": 4\n  },\n  \"settings\": {\n    \"allowedOrigins\": [\n\
+    \      \"https://default.example.com\"\n    ],\n    \"environment\": \"poc\",\n\
+    \    \"logLevel\": \"warn\",\n    \"port\": 8004,\n    \"timeoutSeconds\": 34\n\
+    \  },\n  \"tenant\": {\n    \"domain\": \"tenant-b.example.com\",\n    \"id\"\
+    : \"tenant-b\",\n    \"locale\": \"en-GB\",\n    \"name\": \"tenant-b\",\n   \
+    \ \"region\": \"eu-west\",\n    \"tier\": \"enterprise\",\n    \"timezone\": \"\
+    Europe/London\"\n  },\n  \"tenantConfig\": {\n    \"displayName\": \"Default workspace\"\
+    ,\n    \"quota\": {\n      \"maxProjects\": 50,\n      \"maxUsers\": 500\n   \
+    \ },\n    \"tags\": [\n      \"shared\",\n      \"poc\"\n    ]\n  }\n}\n"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tenant-b-service-05
+  labels:
+    poc.example.com/role: service
+    poc.example.com/service: service-05
+data:
+  message: service-05 configured by parent chart
+  environment: poc
+  logLevel: debug
+  tenantName: tenant-b
+  tenantDomain: tenant-b.example.com
+  config.json: "{\n  \"features\": {\n    \"betaEnabled\": false,\n    \"cacheEnabled\"\
+    : true,\n    \"searchEnabled\": false\n  },\n  \"integrations\": {\n    \"export\"\
+    : {\n      \"enabled\": true,\n      \"format\": \"json\"\n    },\n    \"webhook\"\
+    : {\n      \"enabled\": false,\n      \"url\": \"https://hooks.example.com/default\"\
+    \n    }\n  },\n  \"message\": \"service-05 configured by parent chart\",\n  \"\
+    resources\": {\n    \"limits\": {\n      \"cpu\": \"500m\",\n      \"memory\"\
+    : \"256Mi\"\n    },\n    \"requests\": {\n      \"cpu\": \"100m\",\n      \"memory\"\
+    : \"128Mi\"\n    }\n  },\n  \"retry\": {\n    \"backoffSeconds\": 2,\n    \"maxAttempts\"\
+    : 3\n  },\n  \"runtime\": {\n    \"health\": {\n      \"intervalSeconds\": 10,\n\
+    \      \"path\": \"/healthz\"\n    },\n    \"image\": {\n      \"repository\"\
+    : \"example/service-05\",\n      \"tag\": \"1.0.0\"\n    },\n    \"replicas\"\
+    : 2,\n    \"workers\": 4\n  },\n  \"settings\": {\n    \"allowedOrigins\": [\n\
+    \      \"https://default.example.com\"\n    ],\n    \"environment\": \"poc\",\n\
+    \    \"logLevel\": \"debug\",\n    \"port\": 8005,\n    \"timeoutSeconds\": 35\n\
+    \  },\n  \"tenant\": {\n    \"domain\": \"tenant-b.example.com\",\n    \"id\"\
+    : \"tenant-b\",\n    \"locale\": \"en-GB\",\n    \"name\": \"tenant-b\",\n   \
+    \ \"region\": \"eu-west\",\n    \"tier\": \"enterprise\",\n    \"timezone\": \"\
+    Europe/London\"\n  },\n  \"tenantConfig\": {\n    \"displayName\": \"Default workspace\"\
+    ,\n    \"quota\": {\n      \"maxProjects\": 50,\n      \"maxUsers\": 500\n   \
+    \ },\n    \"tags\": [\n      \"shared\",\n      \"poc\"\n    ]\n  }\n}\n"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tenant-b-service-06
+  labels:
+    poc.example.com/role: service
+    poc.example.com/service: service-06
+data:
+  message: service-06 configured by parent chart
+  environment: poc
+  logLevel: warn
+  tenantName: tenant-b
+  tenantDomain: tenant-b.example.com
+  config.json: "{\n  \"features\": {\n    \"betaEnabled\": false,\n    \"cacheEnabled\"\
+    : true,\n    \"searchEnabled\": false\n  },\n  \"integrations\": {\n    \"export\"\
+    : {\n      \"enabled\": true,\n      \"format\": \"json\"\n    },\n    \"webhook\"\
+    : {\n      \"enabled\": false,\n      \"url\": \"https://hooks.example.com/default\"\
+    \n    }\n  },\n  \"message\": \"service-06 configured by parent chart\",\n  \"\
+    resources\": {\n    \"limits\": {\n      \"cpu\": \"500m\",\n      \"memory\"\
+    : \"256Mi\"\n    },\n    \"requests\": {\n      \"cpu\": \"100m\",\n      \"memory\"\
+    : \"128Mi\"\n    }\n  },\n  \"retry\": {\n    \"backoffSeconds\": 2,\n    \"maxAttempts\"\
+    : 3\n  },\n  \"runtime\": {\n    \"health\": {\n      \"intervalSeconds\": 10,\n\
+    \      \"path\": \"/healthz\"\n    },\n    \"image\": {\n      \"repository\"\
+    : \"example/service-06\",\n      \"tag\": \"1.0.0\"\n    },\n    \"replicas\"\
+    : 2,\n    \"workers\": 4\n  },\n  \"settings\": {\n    \"allowedOrigins\": [\n\
+    \      \"https://default.example.com\"\n    ],\n    \"environment\": \"poc\",\n\
+    \    \"logLevel\": \"warn\",\n    \"port\": 8006,\n    \"timeoutSeconds\": 36\n\
+    \  },\n  \"tenant\": {\n    \"domain\": \"tenant-b.example.com\",\n    \"id\"\
+    : \"tenant-b\",\n    \"locale\": \"en-GB\",\n    \"name\": \"tenant-b\",\n   \
+    \ \"region\": \"eu-west\",\n    \"tier\": \"enterprise\",\n    \"timezone\": \"\
+    Europe/London\"\n  },\n  \"tenantConfig\": {\n    \"displayName\": \"Default workspace\"\
+    ,\n    \"quota\": {\n      \"maxProjects\": 50,\n      \"maxUsers\": 500\n   \
+    \ },\n    \"tags\": [\n      \"shared\",\n      \"poc\"\n    ]\n  }\n}\n"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tenant-b-service-07
+  labels:
+    poc.example.com/role: service
+    poc.example.com/service: service-07
+data:
+  message: service-07 configured by parent chart
+  environment: poc
+  logLevel: debug
+  tenantName: tenant-b
+  tenantDomain: tenant-b.example.com
+  config.json: "{\n  \"features\": {\n    \"betaEnabled\": false,\n    \"cacheEnabled\"\
+    : true,\n    \"searchEnabled\": false\n  },\n  \"integrations\": {\n    \"export\"\
+    : {\n      \"enabled\": true,\n      \"format\": \"json\"\n    },\n    \"webhook\"\
+    : {\n      \"enabled\": false,\n      \"url\": \"https://hooks.example.com/default\"\
+    \n    }\n  },\n  \"message\": \"service-07 configured by parent chart\",\n  \"\
+    resources\": {\n    \"limits\": {\n      \"cpu\": \"500m\",\n      \"memory\"\
+    : \"256Mi\"\n    },\n    \"requests\": {\n      \"cpu\": \"100m\",\n      \"memory\"\
+    : \"128Mi\"\n    }\n  },\n  \"retry\": {\n    \"backoffSeconds\": 2,\n    \"maxAttempts\"\
+    : 3\n  },\n  \"runtime\": {\n    \"health\": {\n      \"intervalSeconds\": 10,\n\
+    \      \"path\": \"/healthz\"\n    },\n    \"image\": {\n      \"repository\"\
+    : \"example/service-07\",\n      \"tag\": \"1.0.0\"\n    },\n    \"replicas\"\
+    : 2,\n    \"workers\": 4\n  },\n  \"settings\": {\n    \"allowedOrigins\": [\n\
+    \      \"https://default.example.com\"\n    ],\n    \"environment\": \"poc\",\n\
+    \    \"logLevel\": \"debug\",\n    \"port\": 8007,\n    \"timeoutSeconds\": 37\n\
+    \  },\n  \"tenant\": {\n    \"domain\": \"tenant-b.example.com\",\n    \"id\"\
+    : \"tenant-b\",\n    \"locale\": \"en-GB\",\n    \"name\": \"tenant-b\",\n   \
+    \ \"region\": \"eu-west\",\n    \"tier\": \"enterprise\",\n    \"timezone\": \"\
+    Europe/London\"\n  },\n  \"tenantConfig\": {\n    \"displayName\": \"Default workspace\"\
+    ,\n    \"quota\": {\n      \"maxProjects\": 50,\n      \"maxUsers\": 500\n   \
+    \ },\n    \"tags\": [\n      \"shared\",\n      \"poc\"\n    ]\n  }\n}\n"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tenant-b-service-08
+  labels:
+    poc.example.com/role: service
+    poc.example.com/service: service-08
+data:
+  message: service-08 configured by parent chart
+  environment: poc
+  logLevel: warn
+  tenantName: tenant-b
+  tenantDomain: tenant-b.example.com
+  config.json: "{\n  \"features\": {\n    \"betaEnabled\": false,\n    \"cacheEnabled\"\
+    : true,\n    \"searchEnabled\": false\n  },\n  \"integrations\": {\n    \"export\"\
+    : {\n      \"enabled\": true,\n      \"format\": \"json\"\n    },\n    \"webhook\"\
+    : {\n      \"enabled\": false,\n      \"url\": \"https://hooks.example.com/default\"\
+    \n    }\n  },\n  \"message\": \"service-08 configured by parent chart\",\n  \"\
+    resources\": {\n    \"limits\": {\n      \"cpu\": \"500m\",\n      \"memory\"\
+    : \"256Mi\"\n    },\n    \"requests\": {\n      \"cpu\": \"100m\",\n      \"memory\"\
+    : \"128Mi\"\n    }\n  },\n  \"retry\": {\n    \"backoffSeconds\": 2,\n    \"maxAttempts\"\
+    : 3\n  },\n  \"runtime\": {\n    \"health\": {\n      \"intervalSeconds\": 10,\n\
+    \      \"path\": \"/healthz\"\n    },\n    \"image\": {\n      \"repository\"\
+    : \"example/service-08\",\n      \"tag\": \"1.0.0\"\n    },\n    \"replicas\"\
+    : 2,\n    \"workers\": 4\n  },\n  \"settings\": {\n    \"allowedOrigins\": [\n\
+    \      \"https://default.example.com\"\n    ],\n    \"environment\": \"poc\",\n\
+    \    \"logLevel\": \"warn\",\n    \"port\": 8008,\n    \"timeoutSeconds\": 38\n\
+    \  },\n  \"tenant\": {\n    \"domain\": \"tenant-b.example.com\",\n    \"id\"\
+    : \"tenant-b\",\n    \"locale\": \"en-GB\",\n    \"name\": \"tenant-b\",\n   \
+    \ \"region\": \"eu-west\",\n    \"tier\": \"enterprise\",\n    \"timezone\": \"\
+    Europe/London\"\n  },\n  \"tenantConfig\": {\n    \"displayName\": \"Default workspace\"\
+    ,\n    \"quota\": {\n      \"maxProjects\": 50,\n      \"maxUsers\": 500\n   \
+    \ },\n    \"tags\": [\n      \"shared\",\n      \"poc\"\n    ]\n  }\n}\n"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tenant-b-service-09
+  labels:
+    poc.example.com/role: service
+    poc.example.com/service: service-09
+data:
+  message: service-09 configured by parent chart
+  environment: poc
+  logLevel: debug
+  tenantName: tenant-b
+  tenantDomain: tenant-b.example.com
+  config.json: "{\n  \"features\": {\n    \"betaEnabled\": false,\n    \"cacheEnabled\"\
+    : true,\n    \"searchEnabled\": false\n  },\n  \"integrations\": {\n    \"export\"\
+    : {\n      \"enabled\": true,\n      \"format\": \"json\"\n    },\n    \"webhook\"\
+    : {\n      \"enabled\": false,\n      \"url\": \"https://hooks.example.com/default\"\
+    \n    }\n  },\n  \"message\": \"service-09 configured by parent chart\",\n  \"\
+    resources\": {\n    \"limits\": {\n      \"cpu\": \"500m\",\n      \"memory\"\
+    : \"256Mi\"\n    },\n    \"requests\": {\n      \"cpu\": \"100m\",\n      \"memory\"\
+    : \"128Mi\"\n    }\n  },\n  \"retry\": {\n    \"backoffSeconds\": 2,\n    \"maxAttempts\"\
+    : 3\n  },\n  \"runtime\": {\n    \"health\": {\n      \"intervalSeconds\": 10,\n\
+    \      \"path\": \"/healthz\"\n    },\n    \"image\": {\n      \"repository\"\
+    : \"example/service-09\",\n      \"tag\": \"1.0.0\"\n    },\n    \"replicas\"\
+    : 2,\n    \"workers\": 4\n  },\n  \"settings\": {\n    \"allowedOrigins\": [\n\
+    \      \"https://default.example.com\"\n    ],\n    \"environment\": \"poc\",\n\
+    \    \"logLevel\": \"debug\",\n    \"port\": 8009,\n    \"timeoutSeconds\": 39\n\
+    \  },\n  \"tenant\": {\n    \"domain\": \"tenant-b.example.com\",\n    \"id\"\
+    : \"tenant-b\",\n    \"locale\": \"en-GB\",\n    \"name\": \"tenant-b\",\n   \
+    \ \"region\": \"eu-west\",\n    \"tier\": \"enterprise\",\n    \"timezone\": \"\
+    Europe/London\"\n  },\n  \"tenantConfig\": {\n    \"displayName\": \"Default workspace\"\
+    ,\n    \"quota\": {\n      \"maxProjects\": 50,\n      \"maxUsers\": 500\n   \
+    \ },\n    \"tags\": [\n      \"shared\",\n      \"poc\"\n    ]\n  }\n}\n"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tenant-b-service-10
+  labels:
+    poc.example.com/role: service
+    poc.example.com/service: service-10
+data:
+  message: service-10 configured by parent chart
+  environment: poc
+  logLevel: warn
+  tenantName: tenant-b
+  tenantDomain: tenant-b.example.com
+  config.json: "{\n  \"features\": {\n    \"betaEnabled\": true,\n    \"cacheEnabled\"\
+    : true,\n    \"searchEnabled\": false\n  },\n  \"integrations\": {\n    \"export\"\
+    : {\n      \"enabled\": true,\n      \"format\": \"json\"\n    },\n    \"webhook\"\
+    : {\n      \"enabled\": false,\n      \"url\": \"https://hooks.example.com/default\"\
+    \n    }\n  },\n  \"message\": \"service-10 configured by parent chart\",\n  \"\
+    resources\": {\n    \"limits\": {\n      \"cpu\": \"500m\",\n      \"memory\"\
+    : \"256Mi\"\n    },\n    \"requests\": {\n      \"cpu\": \"250m\",\n      \"memory\"\
+    : \"128Mi\"\n    }\n  },\n  \"retry\": {\n    \"backoffSeconds\": 2,\n    \"maxAttempts\"\
+    : 3\n  },\n  \"runtime\": {\n    \"health\": {\n      \"intervalSeconds\": 10,\n\
+    \      \"path\": \"/healthz\"\n    },\n    \"image\": {\n      \"repository\"\
+    : \"example/service-10\",\n      \"tag\": \"1.0.0\"\n    },\n    \"replicas\"\
+    : 4,\n    \"workers\": 4\n  },\n  \"settings\": {\n    \"allowedOrigins\": [\n\
+    \      \"https://default.example.com\"\n    ],\n    \"environment\": \"poc\",\n\
+    \    \"logLevel\": \"warn\",\n    \"port\": 8010,\n    \"timeoutSeconds\": 100\n\
+    \  },\n  \"tenant\": {\n    \"domain\": \"tenant-b.example.com\",\n    \"id\"\
+    : \"tenant-b\",\n    \"locale\": \"en-GB\",\n    \"name\": \"tenant-b\",\n   \
+    \ \"region\": \"eu-west\",\n    \"tier\": \"enterprise\",\n    \"timezone\": \"\
+    Europe/London\"\n  },\n  \"tenantConfig\": {\n    \"displayName\": \"Default workspace\"\
+    ,\n    \"quota\": {\n      \"maxProjects\": 110,\n      \"maxUsers\": 500\n  \
+    \  },\n    \"tags\": [\n      \"tenant-b\",\n      \"group-10\"\n    ]\n  }\n\
+    }\n"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tenant-b-service-11
+  labels:
+    poc.example.com/role: service
+    poc.example.com/service: service-11
+data:
+  message: service-11 configured by parent chart
+  environment: poc
+  logLevel: debug
+  tenantName: tenant-b
+  tenantDomain: tenant-b.example.com
+  config.json: "{\n  \"features\": {\n    \"betaEnabled\": false,\n    \"cacheEnabled\"\
+    : true,\n    \"searchEnabled\": false\n  },\n  \"integrations\": {\n    \"export\"\
+    : {\n      \"enabled\": true,\n      \"format\": \"json\"\n    },\n    \"webhook\"\
+    : {\n      \"enabled\": false,\n      \"url\": \"https://hooks.example.com/default\"\
+    \n    }\n  },\n  \"message\": \"service-11 configured by parent chart\",\n  \"\
+    resources\": {\n    \"limits\": {\n      \"cpu\": \"500m\",\n      \"memory\"\
+    : \"256Mi\"\n    },\n    \"requests\": {\n      \"cpu\": \"100m\",\n      \"memory\"\
+    : \"128Mi\"\n    }\n  },\n  \"retry\": {\n    \"backoffSeconds\": 2,\n    \"maxAttempts\"\
+    : 3\n  },\n  \"runtime\": {\n    \"health\": {\n      \"intervalSeconds\": 10,\n\
+    \      \"path\": \"/healthz\"\n    },\n    \"image\": {\n      \"repository\"\
+    : \"example/service-11\",\n      \"tag\": \"1.0.0\"\n    },\n    \"replicas\"\
+    : 2,\n    \"workers\": 4\n  },\n  \"settings\": {\n    \"allowedOrigins\": [\n\
+    \      \"https://default.example.com\"\n    ],\n    \"environment\": \"poc\",\n\
+    \    \"logLevel\": \"debug\",\n    \"port\": 8011,\n    \"timeoutSeconds\": 41\n\
+    \  },\n  \"tenant\": {\n    \"domain\": \"tenant-b.example.com\",\n    \"id\"\
+    : \"tenant-b\",\n    \"locale\": \"en-GB\",\n    \"name\": \"tenant-b\",\n   \
+    \ \"region\": \"eu-west\",\n    \"tier\": \"enterprise\",\n    \"timezone\": \"\
+    Europe/London\"\n  },\n  \"tenantConfig\": {\n    \"displayName\": \"Default workspace\"\
+    ,\n    \"quota\": {\n      \"maxProjects\": 50,\n      \"maxUsers\": 500\n   \
+    \ },\n    \"tags\": [\n      \"shared\",\n      \"poc\"\n    ]\n  }\n}\n"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tenant-b-service-12
+  labels:
+    poc.example.com/role: service
+    poc.example.com/service: service-12
+data:
+  message: service-12 configured by parent chart
+  environment: poc
+  logLevel: warn
+  tenantName: tenant-b
+  tenantDomain: tenant-b.example.com
+  config.json: "{\n  \"features\": {\n    \"betaEnabled\": false,\n    \"cacheEnabled\"\
+    : true,\n    \"searchEnabled\": false\n  },\n  \"integrations\": {\n    \"export\"\
+    : {\n      \"enabled\": true,\n      \"format\": \"json\"\n    },\n    \"webhook\"\
+    : {\n      \"enabled\": false,\n      \"url\": \"https://hooks.example.com/default\"\
+    \n    }\n  },\n  \"message\": \"service-12 configured by parent chart\",\n  \"\
+    resources\": {\n    \"limits\": {\n      \"cpu\": \"500m\",\n      \"memory\"\
+    : \"256Mi\"\n    },\n    \"requests\": {\n      \"cpu\": \"100m\",\n      \"memory\"\
+    : \"128Mi\"\n    }\n  },\n  \"retry\": {\n    \"backoffSeconds\": 2,\n    \"maxAttempts\"\
+    : 3\n  },\n  \"runtime\": {\n    \"health\": {\n      \"intervalSeconds\": 10,\n\
+    \      \"path\": \"/healthz\"\n    },\n    \"image\": {\n      \"repository\"\
+    : \"example/service-12\",\n      \"tag\": \"1.0.0\"\n    },\n    \"replicas\"\
+    : 2,\n    \"workers\": 4\n  },\n  \"settings\": {\n    \"allowedOrigins\": [\n\
+    \      \"https://default.example.com\"\n    ],\n    \"environment\": \"poc\",\n\
+    \    \"logLevel\": \"warn\",\n    \"port\": 8012,\n    \"timeoutSeconds\": 42\n\
+    \  },\n  \"tenant\": {\n    \"domain\": \"tenant-b.example.com\",\n    \"id\"\
+    : \"tenant-b\",\n    \"locale\": \"en-GB\",\n    \"name\": \"tenant-b\",\n   \
+    \ \"region\": \"eu-west\",\n    \"tier\": \"enterprise\",\n    \"timezone\": \"\
+    Europe/London\"\n  },\n  \"tenantConfig\": {\n    \"displayName\": \"Default workspace\"\
+    ,\n    \"quota\": {\n      \"maxProjects\": 50,\n      \"maxUsers\": 500\n   \
+    \ },\n    \"tags\": [\n      \"shared\",\n      \"poc\"\n    ]\n  }\n}\n"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tenant-b-service-a
+  labels:
+    poc.example.com/role: service
+    poc.example.com/service: service-a
+data:
+  message: Custom message for tenant B
+  environment: poc
+  logLevel: trace
+  tenantName: tenant-b
+  tenantDomain: tenant-b.example.com
+  config.json: "{\n  \"features\": {\n    \"betaEnabled\": false,\n    \"cacheEnabled\"\
+    : false,\n    \"searchEnabled\": true\n  },\n  \"integrations\": {\n    \"export\"\
+    : {\n      \"enabled\": true,\n      \"format\": \"json\"\n    },\n    \"webhook\"\
+    : {\n      \"enabled\": false,\n      \"url\": \"https://hooks.example.com/default\"\
+    \n    }\n  },\n  \"message\": \"Custom message for tenant B\",\n  \"resources\"\
+    : {\n    \"limits\": {\n      \"cpu\": \"500m\",\n      \"memory\": \"1Gi\"\n\
+    \    },\n    \"requests\": {\n      \"cpu\": \"100m\",\n      \"memory\": \"128Mi\"\
+    \n    }\n  },\n  \"retry\": {\n    \"backoffSeconds\": 2,\n    \"maxAttempts\"\
+    : 0\n  },\n  \"runtime\": {\n    \"health\": {\n      \"intervalSeconds\": 10,\n\
+    \      \"path\": \"/healthz\"\n    },\n    \"image\": {\n      \"repository\"\
+    : \"example/service-a\",\n      \"tag\": \"2.1.0\"\n    },\n    \"replicas\":\
+    \ 3,\n    \"workers\": 4\n  },\n  \"settings\": {\n    \"allowedOrigins\": [\n\
+    \      \"https://default.example.com\"\n    ],\n    \"environment\": \"poc\",\n\
+    \    \"logLevel\": \"trace\",\n    \"port\": 8001,\n    \"timeoutSeconds\": 31\n\
+    \  },\n  \"tenant\": {\n    \"domain\": \"tenant-b.example.com\",\n    \"id\"\
+    : \"tenant-b\",\n    \"locale\": \"en-GB\",\n    \"name\": \"tenant-b\",\n   \
+    \ \"region\": \"eu-west\",\n    \"tier\": \"enterprise\",\n    \"timezone\": \"\
+    Europe/London\"\n  },\n  \"tenantConfig\": {\n    \"displayName\": \"Tenant B\
+    \ workspace\",\n    \"quota\": {\n      \"maxProjects\": 50,\n      \"maxUsers\"\
+    : 2000\n    },\n    \"tags\": [\n      \"enterprise\",\n      \"pilot\"\n    ]\n\
+    \  }\n}\n"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tenant-b-service-b
+  labels:
+    poc.example.com/role: service
+    poc.example.com/service: service-b
+data:
+  message: Service B overridden by the parent chart
+  environment: staging
+  logLevel: debug
+  tenantName: tenant-b
+  tenantDomain: tenant-b.example.com
+  config.json: "{\n  \"features\": {\n    \"betaEnabled\": false,\n    \"cacheEnabled\"\
+    : true,\n    \"searchEnabled\": false\n  },\n  \"integrations\": {\n    \"export\"\
+    : {\n      \"enabled\": true,\n      \"format\": \"json\"\n    },\n    \"webhook\"\
+    : {\n      \"enabled\": true,\n      \"url\": \"https://tenant-b.example.com/hooks\"\
+    \n    }\n  },\n  \"message\": \"Service B overridden by the parent chart\",\n\
+    \  \"resources\": {\n    \"limits\": {\n      \"cpu\": \"500m\",\n      \"memory\"\
+    : \"256Mi\"\n    },\n    \"requests\": {\n      \"cpu\": \"100m\",\n      \"memory\"\
+    : \"128Mi\"\n    }\n  },\n  \"retry\": {\n    \"backoffSeconds\": 2,\n    \"maxAttempts\"\
+    : 3\n  },\n  \"runtime\": {\n    \"health\": {\n      \"intervalSeconds\": 10,\n\
+    \      \"path\": \"/healthz\"\n    },\n    \"image\": {\n      \"repository\"\
+    : \"example/service-b\",\n      \"tag\": \"1.0.0\"\n    },\n    \"replicas\":\
+    \ 2,\n    \"workers\": 8\n  },\n  \"settings\": {\n    \"allowedOrigins\": [],\n\
+    \    \"environment\": \"staging\",\n    \"logLevel\": \"debug\",\n    \"port\"\
+    : 8002,\n    \"timeoutSeconds\": 32\n  },\n  \"tenant\": {\n    \"domain\": \"\
+    tenant-b.example.com\",\n    \"id\": \"tenant-b\",\n    \"locale\": \"en-GB\"\
+    ,\n    \"name\": \"tenant-b\",\n    \"region\": \"eu-west\",\n    \"tier\": \"\
+    enterprise\",\n    \"timezone\": \"Europe/London\"\n  },\n  \"tenantConfig\":\
+    \ {\n    \"displayName\": \"Default workspace\",\n    \"quota\": {\n      \"maxProjects\"\
+    : 50,\n      \"maxUsers\": 500\n    },\n    \"tags\": [\n      \"shared\",\n \
+    \     \"poc\"\n    ]\n  }\n}\n"

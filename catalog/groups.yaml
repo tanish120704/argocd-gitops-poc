@@ -1,0 +1,73 @@
+groups:
+  foundation:
+    wave: 0
+    services:
+    - service-a
+    - service-b
+    - service-03
+    - service-04
+    - service-05
+    - service-06
+    - service-07
+    - service-08
+    - service-09
+    - service-10
+    - service-11
+    - service-12
+    umbrellaTemplates:
+    - tenant-config.yaml
+    - routing.yaml
+    - notifications.yaml
+    - observability.yaml
+    - security.yaml
+    - integrations.yaml
+  core-platform:
+    wave: 1
+    services:
+    - service-13
+    - service-14
+    - service-15
+    - service-16
+    - service-17
+    - service-18
+    - service-19
+    - service-20
+    - service-21
+    - service-22
+    - service-23
+    - service-24
+    - service-25
+    umbrellaTemplates: []
+  product-services:
+    wave: 2
+    services:
+    - service-26
+    - service-27
+    - service-28
+    - service-29
+    - service-30
+    - service-31
+    - service-32
+    - service-33
+    - service-34
+    - service-35
+    - service-36
+    - service-37
+    - service-38
+    - service-39
+    - service-40
+    umbrellaTemplates: []
+  to-revisit:
+    wave: 3
+    services:
+    - service-41
+    - service-42
+    - service-43
+    - service-44
+    - service-45
+    - service-46
+    - service-47
+    - service-48
+    - service-49
+    - service-50
+    umbrellaTemplates: []

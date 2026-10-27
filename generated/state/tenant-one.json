@@ -1,0 +1,79 @@
+{
+  "chartsRevision": "f4d1a9a45c95dcc5ad5b32ff7d7207c2a27a16d2",
+  "components": {
+    "_umbrella": "92d166e1f055a3592073c58cd7f2036983992134b2950c8531468583b83de1f1",
+    "service-03": "53b91bbcca46d2cc635355eaa16744a0423deedde52a70a2bb560e23547bef6f",
+    "service-04": "bb0c2a12b2d38b2b384be1a15a5d2fbc7a9e96fd498ef2bc421c0b8c58dc88f6",
+    "service-05": "989fbb91034b9c2ad5d3ec5ee99dece65b25d4f228daf5328b6046658d0e530c",
+    "service-06": "32808b6afcfa70f2a4a17dab8dfd001223cc1b07c3645c2fe4cae8d8e8ba9896",
+    "service-07": "965b89e8e611056bb9c6d5aaa974aeae341aec3d6f398995c430301e5f219939",
+    "service-08": "46a47b4bfc0b25b621b8261796cd0226d7d2efb25f56c566f82863276b975931",
+    "service-09": "d9db42f16f9d15b0fe69a21764a43a4338153eba0e5dd97ea05e3aa59640cd88",
+    "service-10": "2f4b26efd1098d6308484b4fe600e086088e6cabd7c9f8255e6b4a6ea9438f82",
+    "service-11": "f7c5914d73e1d9e433a80895d5aa53de8c4209838fde76408396942eb9d376a5",
+    "service-12": "0ff9e71fad8d2116b02f20c3dafb0e556a2c7563183eda7f0afeb08efa7d0777",
+    "service-13": "ac5a30ff4eb06f8ef36eaf6fc3c968667115c83f2f03a015e8fa46c700b20689",
+    "service-14": "9c11ab174ffff6ca970b6b842335148f43fa87d141fc4130b94f62151864175e",
+    "service-15": "deda2f739a04ecdbd91d76e6c17603d66657e95100a8cdc1c66c3cfe902d0294",
+    "service-16": "4489f823c445225fb299547bad6024ff0786ee0908f1bf30bb6ba8fe1881b15e",
+    "service-17": "98f01a9d4c358e8e54c2ee22f979b18b0eb27e9fb410bc86b4c58f1074217a4a",
+    "service-18": "2658a25b9abb43d38c26fa2b69b52c33e058f219e70d3dab68f489efec0b9584",
+    "service-19": "72675e4ee13ae51ca42fed5c5b44f66e15d45e0587ad8996e4cc5583d8b0fa76",
+    "service-20": "76572304714febed4887390ffa38c2c29a443ef5a88bc484c3df5b3bad9ec2bd",
+    "service-21": "e42536def51a3b4cb0d862f4353674ee5d58e086b1c0374688978c3689d8adc8",
+    "service-22": "236f58ba3a37ed9b92a632b871c571ee1ffb071d7f233f71a8c00619d3ec0b9e",
+    "service-23": "df4be216c624c3ce9368432ba6c5d0a10b836515feabb15699394238c2013f61",
+    "service-24": "a8c44bbd45047d9172221cfd6f8f60457460da22097d3cf7e94392889ca93cc4",
+    "service-25": "ed82352f7c91ca8ae515c6a4e446a61f2bcaeab7fcfde1a0a0e5bcbc293e800d",
+    "service-26": "4d0a4b9aed9f92bdeac8186d2a697fc3ed8e857366e97284e99c3c4068e493f8",
+    "service-27": "23e9a641c39f0f27b9142ea5cf75cbab716bfb4fe3a61ea3de6393d5bdb45ca4",
+    "service-28": "3da565411a4260967fe5251b72dfde932591548f9b8843cb86afc924c31d36f7",
+    "service-29": "3ed8c0d4941cb5a7b90077c9f5c5d0e224b4bf2884927b80f3fc270c7600f3b7",
+    "service-30": "85e45d06e3c2230a21afe420e7b62f9475f8c431bc88593c51d9577832a78bfc",
+    "service-31": "e47921fe3dbbae0a5d681bd409811bcf0c40c253e9af2096aacec20d2391df51",
+    "service-32": "375bfffa4dcca49332ef8780b9f9915698200f8b5a15d186fcb0c9ecca2ba4ca",
+    "service-33": "d2ef38bb49d6c73387940e33e84dd66468d5d730f64f0a343050cbaabed77847",
+    "service-34": "d12997e84d654bbe179389a3d52d97e837c81a85ee22f0e7aa84e7174557ef79",
+    "service-35": "c395ddfc8c3a266dd9fec702dfee1d908800d01315b1fffebdd40f4901d7498f",
+    "service-36": "fb2addcddf11861cfc2318f8aa034222de7132287bef2e2d23e9b3d93aaf4a36",
+    "service-37": "e9aea8ff11a46d6c3d6311b70f1c2caec9d4d6b87d885ea764940cba1cae24ba",
+    "service-38": "afa839e8d4aceeaf7e1d52ba8bf7a1a31d078056e70e131bd56690f3421dd236",
+    "service-39": "ce21ac4d1482f21d29b3f4c5decd3a14cb9c6af9e8397c0df9f2f92cc440cb70",
+    "service-40": "0b77394123b3f62952bc2cca9283cd02f7cdf2aed0c7da8cf1408ee80331b47f",
+    "service-41": "364b62257fba85134a1746fd28398ffe2ba581ca89622ac8ed35f6bcf7f7a50a",
+    "service-42": "b0b6623b01ca23213127b4ae8aee4a800b7b5e673f36f7528bd0f7c84c8744ec",
+    "service-43": "d4714f82ffdc96d0cced472a71b42a66a6a473419cef2e416d05d7926bafbdf9",
+    "service-44": "e8cfb114e0f0cd7e5130bae878a4a311f76f2b4fe09ac5684f7d02070c6d78b6",
+    "service-45": "b4121f242a9d8c4b2576497eb77d852d6415bff379d2e85a48d55f05571728e9",
+    "service-46": "47246fbe565760fd10285949e5ced08eacc12ec26a957fa721c55c2bcec15ac5",
+    "service-47": "eb9a57c8da99951781b969f620bb2d2fc68e36f02e1efb8a3dd4f5afde6b68c1",
+    "service-48": "5e766da9035705c04a8685275737ea3a76e42e1e93e4a3a703b6a5f34a3d916a",
+    "service-49": "f377314c86e74b96d42c3815da83004bdfba24031bfda57199147387dc58f163",
+    "service-50": "2ec6f12721c64fafde0beac5fc11f8000a4865d0e0e05dcca8db514ecb3f6eb9",
+    "service-a": "a954638f0bdb01e820395bb78134aed2d61270e94fb26878e3d2e110498570d7",
+    "service-b": "1adf973bf1543218ef333ecae1942b895bf2799151e8dc02b6aa5f881af568e7"
+  },
+  "groups": {
+    "core-platform": {
+      "path": "generated/artifacts/tenant-one/core-platform/bdb1a6d7bf95f3b4fb98e4bea5822fcc09054def356df6cbfd164ebd72a72a6c",
+      "resourceCount": 13,
+      "sha256": "bdb1a6d7bf95f3b4fb98e4bea5822fcc09054def356df6cbfd164ebd72a72a6c"
+    },
+    "foundation": {
+      "path": "generated/artifacts/tenant-one/foundation/e5483270e51ac3210311845bfcac5253d8afd77d1e21558a9b7dbc62f2a3b3c6",
+      "resourceCount": 18,
+      "sha256": "e5483270e51ac3210311845bfcac5253d8afd77d1e21558a9b7dbc62f2a3b3c6"
+    },
+    "product-services": {
+      "path": "generated/artifacts/tenant-one/product-services/11499762aed5f4faea2a42b38cb0026e67847c8decf8510133f433dc825af76a",
+      "resourceCount": 15,
+      "sha256": "11499762aed5f4faea2a42b38cb0026e67847c8decf8510133f433dc825af76a"
+    },
+    "to-revisit": {
+      "path": "generated/artifacts/tenant-one/to-revisit/bd5f48632f126532fc26a6825fffb5d6be4e2224af77068b74f1da718805c071",
+      "resourceCount": 10,
+      "sha256": "bd5f48632f126532fc26a6825fffb5d6be4e2224af77068b74f1da718805c071"
+    }
+  },
+  "tenantValuesSha256": "03ea6a95c772e74079fddc12381faf1546ac679a9c82ea37070feeaa8ba605fb"
+}

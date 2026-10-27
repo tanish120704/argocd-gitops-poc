@@ -6,4 +6,7 @@ resources:
   - vendor/install.yaml
   - application.yaml
   - tenant-project.yaml
+  - parent-project.yaml
   - applicationsets/tenants.yaml
+patches:
+  - path: application-health-patch.yaml
