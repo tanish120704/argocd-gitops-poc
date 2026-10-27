@@ -14,3 +14,6 @@ groups:
 
 # Groups directly own their service and umbrella resources.
 groupPrune: true
+
+# Optional path outside ApplicationSet discovery, preserving an existing parent name.
+tenantValuesPath: ''

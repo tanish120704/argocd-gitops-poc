@@ -1,0 +1,31 @@
+# Preserve the legacy tenant identity and sync-wave annotations during ownership transfer.
+global:
+  tenant:
+    name: umbrella-tenant
+    id: umbrella-tenant
+    domain: umbrella-tenant.example.com
+foundationConfigWaves: false
+service-a:
+  syncWave: 0
+service-b:
+  syncWave: 0
+service-03:
+  syncWave: 0
+service-04:
+  syncWave: 0
+service-05:
+  syncWave: 0
+service-06:
+  syncWave: 0
+service-07:
+  syncWave: 0
+service-08:
+  syncWave: 0
+service-09:
+  syncWave: 0
+service-10:
+  syncWave: 0
+service-11:
+  syncWave: 0
+service-12:
+  syncWave: 0
