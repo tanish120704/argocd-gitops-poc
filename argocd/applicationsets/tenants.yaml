@@ -6,30 +6,32 @@ metadata:
 spec:
   goTemplate: true
   goTemplateOptions:
-    - missingkey=error
+  - missingkey=error
   generators:
-    - git:
-        repoURL: git@github.com:tanish120704/argocd-gitops-poc.git
-        revision: main
-        requeueAfterSeconds: 30
-        files:
-          - path: tenants/*/values.yaml
+  - git:
+      repoURL: git@github.com:tanish120704/argocd-gitops-poc.git
+      revision: main
+      requeueAfterSeconds: 30
+      files:
+      - path: tenants/*/values.yaml
   template:
     metadata:
-      name: 'tenant-{{ .path.basename }}'
+      name: tenant-{{ .path.basename }}
     spec:
       project: tenant-parents
       source:
         repoURL: git@github.com:tanish120704/argocd-gitops-poc.git
         targetRevision: refs/heads/main
-        path: 'generated/tenants/{{ .path.basename }}/parent'
+        path: applications/tenant-parent
+        helm:
+          parameters:
+          - name: tenantId
+            value: '{{ .path.basename }}'
       destination:
         server: https://kubernetes.default.svc
         namespace: argocd
       syncPolicy:
         automated:
-          # Preserve old ConfigMaps until the generated children adopt them.
-          # Offboarding is a deliberate operation in this POC.
           prune: false
           selfHeal: true
           allowEmpty: false

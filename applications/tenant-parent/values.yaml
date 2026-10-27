@@ -1,0 +1,13 @@
+tenantId: ''
+chartsRepository: git@github.com:tanish120704/helm-values-poc.git
+valuesRepository: git@github.com:tanish120704/argocd-gitops-poc.git
+revision: refs/heads/main
+groups:
+  - name: foundation
+    wave: 0
+  - name: core-platform
+    wave: 1
+  - name: product-services
+    wave: 2
+  - name: to-revisit
+    wave: 3

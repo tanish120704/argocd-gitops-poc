@@ -1,0 +1,41 @@
+{{- $tenant := required "tenantId is required" .Values.tenantId -}}
+{{- range .Values.groups }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ printf "%s-%s" $tenant .name }}
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: {{ .wave | quote }}
+  labels:
+    platform.example.com/tenant: {{ $tenant | quote }}
+    platform.example.com/group: {{ .name | quote }}
+spec:
+  project: tenants
+  sources:
+    - repoURL: {{ $.Values.chartsRepository | quote }}
+      targetRevision: {{ $.Values.revision | quote }}
+      path: {{ printf "groups/%s" .name | quote }}
+      helm:
+        releaseName: {{ $tenant | quote }}
+        valueFiles:
+          - $defaults/values.yaml
+          - {{ printf "$tenantValues/tenants/%s/values.yaml" $tenant | quote }}
+    - repoURL: {{ $.Values.chartsRepository | quote }}
+      targetRevision: {{ $.Values.revision | quote }}
+      ref: defaults
+    - repoURL: {{ $.Values.valuesRepository | quote }}
+      targetRevision: {{ $.Values.revision | quote }}
+      ref: tenantValues
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: {{ printf "tenant-%s" $tenant }}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:
+      - CreateNamespace=true
+{{- end }}
