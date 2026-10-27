@@ -11,3 +11,6 @@ groups:
     wave: 2
   - name: to-revisit
     wave: 3
+
+# Disabled during the migration of service resources to leaf Applications.
+groupPrune: false

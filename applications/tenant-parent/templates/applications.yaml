@@ -33,7 +33,7 @@ spec:
     namespace: {{ printf "tenant-%s" $tenant }}
   syncPolicy:
     automated:
-      prune: true
+      prune: {{ $.Values.groupPrune }}
       selfHeal: true
       allowEmpty: false
     syncOptions:
