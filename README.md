@@ -142,3 +142,13 @@ This remains a configuration POC: no service workloads or DNS are provisioned.
 Application count and controller load must be measured before scaling to hundreds
 of tenants. GitHub credentials remain read-only Kubernetes repository Secrets;
 no generated-output CI key or pipeline is needed.
+
+## Legacy umbrella tenant for migration POC
+
+`argocd/umbrella-tenant.yaml` defines a separate Application named
+`umbrella-tenant` that renders the **root chart** (`path: .`) with all 50 service
+dependencies and six root templates in namespace `tenant-umbrella-tenant`.
+It has no child Applications. It uses the root defaults and sets only its tenant
+name, ID, and domain. It is deliberately outside `tenants/*/values.yaml` discovery
+so the ApplicationSet does not create a second deployment tree for this tenant.
+The control-plane Application manages its definition in Git.

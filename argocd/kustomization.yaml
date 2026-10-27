@@ -9,5 +9,6 @@ resources:
   - parent-project.yaml
   - group-project.yaml
   - applicationsets/tenants.yaml
+  - umbrella-tenant.yaml
 patches:
   - path: application-health-patch.yaml
