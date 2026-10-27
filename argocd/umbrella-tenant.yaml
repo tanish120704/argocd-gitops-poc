@@ -13,7 +13,7 @@ spec:
       valuesObject:
         tenantId: umbrella-tenant
         tenantValuesPath: legacy-tenants/umbrella-tenant/values.yaml
-        groupPrune: false
+        groupPrune: true
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd

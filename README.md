@@ -76,16 +76,16 @@ The verifier compares all four group renders to the original root render for
 both tenants (56 ConfigMaps each), rejects resource overlap, and confirms that a
 Service B-only override changes only its Foundation ConfigMap.
 
-## Single-Application umbrella migration baseline
+## Migrated umbrella tenant
 
-`argocd/umbrella-tenant.yaml` separately deploys `umbrella-tenant` from the root
-chart, with all 50 dependencies and six root templates in namespace
-`tenant-umbrella-tenant`. It remains one Application with no children and is
-outside ApplicationSet discovery. It has not been migrated in this change.
+`argocd/umbrella-tenant.yaml` preserves the existing `umbrella-tenant` Application
+as a parent with four group Applications. All 56 existing ConfigMaps remain in
+`tenant-umbrella-tenant` with the same release name, data, and UIDs. Legacy values
+live outside ApplicationSet discovery to preserve the parent's original name.
+See [migration gates, compatibility settings, and rollback](migrations/umbrella-tenant/README.md).
 
-Across Tenant One, Tenant B, the umbrella baseline, and the control plane, there
-are **12 Applications** and **168 ConfigMaps** (56 per tenant). No service pods
-or DNS are provisioned; this is not a production capacity benchmark.
+Across all three tenants and the control plane, there are **16 Applications**
+and **168 tenant ConfigMaps**. No service pods or DNS are provisioned.
 
 ## UI
 
@@ -106,7 +106,7 @@ read-only Kubernetes repository Secrets. No CI generation key is needed.
 
 ## Foundation's internal order
 
-Every tenant inherits Foundation's internal waves from the chart repo's
+New tenants inherit Foundation's internal waves from the chart repo's
 `groups/foundation/values.yaml`: shared standalone configuration at wave `-1`,
 Service A at `0`, Service B at `1`, and Services 03–12 at `2`–`11`. No new
 Applications are introduced, and existing tenant values are unchanged.
@@ -120,3 +120,5 @@ overrides, unchanged group/data rendering, and unchanged behavior in other group
 The current resources are ConfigMaps. A healthy ConfigMap confirms it was applied,
 not that a service is running. Workload startup guarantees require real workload
 health checks; sync waves are not continuous runtime dependency management.
+
+The migrated umbrella tenant explicitly preserves its original wave metadata; it does not adopt the new internal order as part of the ownership migration.
