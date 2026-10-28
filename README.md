@@ -74,17 +74,17 @@ The verifier compares all four group renders to the original root render for
 both tenants (56 ConfigMaps each), rejects resource overlap, and confirms that a
 Service B-only override changes only its Foundation ConfigMap.
 
-## Explicit tenant parent
+## Single-Application umbrella tenant
 
-`argocd/umbrella-tenant.yaml` declares the `umbrella-tenant` parent and its four
-group Applications. Its tenant values are in
-`explicit-tenants/umbrella-tenant/values.yaml`, outside ApplicationSet discovery
-to avoid creating a second parent. The optional parent `tenantValuesPath` setting
-selects this file. Its Helm release is `umbrella-tenant` and its namespace is
-`tenant-umbrella-tenant`.
+`argocd/umbrella-tenant.yaml` deploys the complete root umbrella chart, including
+all 50 service dependencies and six root templates, as one Application named
+`umbrella-tenant`. Its Helm release is `umbrella-tenant` and its namespace is
+`tenant-umbrella-tenant`. Tenant identity is specified directly in the Application's
+Helm values. It has no child Applications and is outside ApplicationSet discovery.
 
-Across all three tenants and the control plane, there are **16 Applications**
-and **168 tenant ConfigMaps**. No service pods or DNS are provisioned.
+Across Tenant One, Tenant B, the umbrella tenant, and the control plane, there
+are **12 Applications** and **168 tenant ConfigMaps**. No service pods or DNS
+are provisioned.
 
 ## UI
 
@@ -120,4 +120,4 @@ The current resources are ConfigMaps. A healthy ConfigMap confirms it was applie
 not that a service is running. Workload startup guarantees require real workload
 health checks; sync waves are not continuous runtime dependency management.
 
-The umbrella tenant explicitly configures its Foundation services at wave `0` and disables wave annotations on its six standalone configuration resources.
+The standalone umbrella tenant renders the root chart directly; the group-specific internal ordering applies to tenants using the four-group model.

@@ -21,7 +21,7 @@ spec:
         releaseName: {{ $tenant | quote }}
         valueFiles:
           - $defaults/values.yaml
-          - {{ printf "$tenantValues/%s" (default (printf "tenants/%s/values.yaml" $tenant) $.Values.tenantValuesPath) | quote }}
+          - {{ printf "$tenantValues/tenants/%s/values.yaml" $tenant | quote }}
     - repoURL: {{ $.Values.chartsRepository | quote }}
       targetRevision: {{ $.Values.revision | quote }}
       ref: defaults
