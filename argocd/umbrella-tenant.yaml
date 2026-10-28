@@ -12,7 +12,7 @@ spec:
     helm:
       valuesObject:
         tenantId: umbrella-tenant
-        tenantValuesPath: legacy-tenants/umbrella-tenant/values.yaml
+        tenantValuesPath: explicit-tenants/umbrella-tenant/values.yaml
         groupPrune: true
   destination:
     server: https://kubernetes.default.svc

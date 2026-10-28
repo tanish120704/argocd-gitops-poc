@@ -1,4 +1,4 @@
-# Preserve the legacy tenant identity and sync-wave annotations during ownership transfer.
+# Tenant identity and Foundation ordering settings.
 global:
   tenant:
     name: umbrella-tenant

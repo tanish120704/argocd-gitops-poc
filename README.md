@@ -45,15 +45,13 @@ tenant's values or the relevant shared chart/default. No generation step or manu
 Application creation is needed. A group, rather than each individual service,
 is the sync and chart-release boundary in this model.
 
-## Ownership and migration
+## Ownership
 
 Tenant parents use project `tenant-parents` and manage Application definitions
 in `argocd`. Groups use project `tenant-groups` and directly manage tenant
-ConfigMaps. The previous service Applications are removed only after their
-ConfigMaps have been adopted by groups with identical names, UIDs, and data.
-Parent pruning stays disabled; group pruning and self-healing are enabled after
-the migration. Tenant offboarding and real data-retention policy remain explicit
-operator operations outside this configuration-only POC.
+ConfigMaps. Parent pruning stays disabled; group pruning and self-healing are
+enabled. Tenant offboarding and data-retention policy remain explicit operator
+operations outside this configuration-only POC.
 
 Root `argocd/application-health-patch.yaml` allows parents to wait for group sync
 and health; it avoids a circular health dependency for the self-managing Argo CD
@@ -76,13 +74,14 @@ The verifier compares all four group renders to the original root render for
 both tenants (56 ConfigMaps each), rejects resource overlap, and confirms that a
 Service B-only override changes only its Foundation ConfigMap.
 
-## Migrated umbrella tenant
+## Explicit tenant parent
 
-`argocd/umbrella-tenant.yaml` preserves the existing `umbrella-tenant` Application
-as a parent with four group Applications. All 56 existing ConfigMaps remain in
-`tenant-umbrella-tenant` with the same release name, data, and UIDs. Legacy values
-live outside ApplicationSet discovery to preserve the parent's original name.
-See [migration gates, compatibility settings, and rollback](migrations/umbrella-tenant/README.md).
+`argocd/umbrella-tenant.yaml` declares the `umbrella-tenant` parent and its four
+group Applications. Its tenant values are in
+`explicit-tenants/umbrella-tenant/values.yaml`, outside ApplicationSet discovery
+to avoid creating a second parent. The optional parent `tenantValuesPath` setting
+selects this file. Its Helm release is `umbrella-tenant` and its namespace is
+`tenant-umbrella-tenant`.
 
 Across all three tenants and the control plane, there are **16 Applications**
 and **168 tenant ConfigMaps**. No service pods or DNS are provisioned.
@@ -121,4 +120,4 @@ The current resources are ConfigMaps. A healthy ConfigMap confirms it was applie
 not that a service is running. Workload startup guarantees require real workload
 health checks; sync waves are not continuous runtime dependency management.
 
-The migrated umbrella tenant explicitly preserves its original wave metadata; it does not adopt the new internal order as part of the ownership migration.
+The umbrella tenant explicitly configures its Foundation services at wave `0` and disables wave annotations on its six standalone configuration resources.
