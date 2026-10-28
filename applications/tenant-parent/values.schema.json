@@ -19,6 +19,36 @@
     },
     "groupPrune": {
       "type": "boolean"
+    },
+    "chartsRevision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "valuesRevision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "groupChartsRevisions": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "foundation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "core-platform": {
+          "type": "string",
+          "minLength": 1
+        },
+        "product-services": {
+          "type": "string",
+          "minLength": 1
+        },
+        "to-revisit": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
     }
   }
 }

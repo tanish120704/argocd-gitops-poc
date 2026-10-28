@@ -23,7 +23,7 @@ dependencies as needed. No individual service Application definitions exist.
 The group names and sync waves are in
 `applications/tenant-parent/values.yaml`. The parent template renders four
 Application objects, pointing to the four group charts. The ApplicationSet in
-`argocd/applicationsets/tenants.yaml` discovers `tenants/*/values.yaml` and creates
+`argocd/applicationsets/tenants.yaml` discovers `tenants/*/deployment.yaml` and creates
 one such parent per tenant. Parent-driven waves order the four group Applications;
 subsequent group reconciliation remains independent rather than transactional.
 
@@ -40,7 +40,7 @@ Foundation Application. Other group Applications retain identical desired
 resources unless the changed setting is shared and used there. Shared repository
 commits may trigger checks or renders elsewhere without causing deployment.
 
-To onboard, add `tenants/<id>/values.yaml`, commit, and push. To update, edit that
+To onboard, add `tenants/<id>/values.yaml` and `deployment.yaml`, commit, and push. To update, edit that
 tenant's values or the relevant shared chart/default. No generation step or manual
 Application creation is needed. A group, rather than each individual service,
 is the sync and chart-release boundary in this model.
@@ -121,3 +121,14 @@ not that a service is running. Workload startup guarantees require real workload
 health checks; sync waves are not continuous runtime dependency management.
 
 The standalone umbrella tenant renders the root chart directly; the group-specific internal ordering applies to tenants using the four-group model.
+
+## Tenant chart selection
+
+Each `tenants/<id>/deployment.yaml` selects `chartsRevision`, `valuesRevision`,
+and optional `groupChartsRevisions`. The ApplicationSet passes this metadata to
+the parent chart. Each group uses its selected revision for both the group chart
+and the chart repository root defaults, while tenant overrides use `valuesRevision`.
+For example, a Foundation feature commit can be tested on Tenant B without changing
+the other three groups, Tenant One, or the standalone umbrella Application.
+Commit a revision change and wait for it to reconcile before adding settings that
+only the new chart supports.

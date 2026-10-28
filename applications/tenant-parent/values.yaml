@@ -1,7 +1,10 @@
 tenantId: ''
 chartsRepository: git@github.com:tanish120704/helm-values-poc.git
 valuesRepository: git@github.com:tanish120704/argocd-gitops-poc.git
-revision: refs/heads/main
+chartsRevision: refs/heads/main
+valuesRevision: refs/heads/main
+# Optional per-group chart revision for isolated development tests.
+groupChartsRevisions: {}
 groups:
   - name: foundation
     wave: 0

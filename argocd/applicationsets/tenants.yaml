@@ -13,7 +13,7 @@ spec:
       revision: main
       requeueAfterSeconds: 30
       files:
-      - path: tenants/*/values.yaml
+      - path: tenants/*/deployment.yaml
   template:
     metadata:
       name: tenant-{{ .path.basename }}
@@ -24,9 +24,15 @@ spec:
         targetRevision: refs/heads/main
         path: applications/tenant-parent
         helm:
-          parameters:
-          - name: tenantId
-            value: '{{ .path.basename }}'
+          values: 'tenantId: {{ .path.basename | quote }}
+
+            chartsRevision: {{ .chartsRevision | quote }}
+
+            valuesRevision: {{ .valuesRevision | quote }}
+
+            groupChartsRevisions: {{ .groupChartsRevisions | toJson }}
+
+            '
       destination:
         server: https://kubernetes.default.svc
         namespace: argocd

@@ -1,0 +1,4 @@
+# Chart selection is separate from tenant application values.
+chartsRevision: refs/heads/main
+valuesRevision: refs/heads/main
+groupChartsRevisions: {}

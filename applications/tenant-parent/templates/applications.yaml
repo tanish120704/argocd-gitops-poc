@@ -1,5 +1,6 @@
 {{- $tenant := required "tenantId is required" .Values.tenantId -}}
 {{- range .Values.groups }}
+{{- $chartRevision := default $.Values.chartsRevision (get $.Values.groupChartsRevisions .name) }}
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -15,7 +16,7 @@ spec:
   project: tenant-groups
   sources:
     - repoURL: {{ $.Values.chartsRepository | quote }}
-      targetRevision: {{ $.Values.revision | quote }}
+      targetRevision: {{ $chartRevision | quote }}
       path: {{ printf "groups/%s" .name | quote }}
       helm:
         releaseName: {{ $tenant | quote }}
@@ -23,10 +24,10 @@ spec:
           - $defaults/values.yaml
           - {{ printf "$tenantValues/tenants/%s/values.yaml" $tenant | quote }}
     - repoURL: {{ $.Values.chartsRepository | quote }}
-      targetRevision: {{ $.Values.revision | quote }}
+      targetRevision: {{ $chartRevision | quote }}
       ref: defaults
     - repoURL: {{ $.Values.valuesRepository | quote }}
-      targetRevision: {{ $.Values.revision | quote }}
+      targetRevision: {{ $.Values.valuesRevision | quote }}
       ref: tenantValues
   destination:
     server: https://kubernetes.default.svc
