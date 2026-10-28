@@ -1,4 +1,4 @@
-# Chart selection is separate from tenant application values.
 chartsRevision: refs/heads/main
 valuesRevision: refs/heads/main
-groupChartsRevisions: {}
+groupChartsRevisions:
+  foundation: 67f1a383e6d87527c0b1782ae49c34f28f71023c
